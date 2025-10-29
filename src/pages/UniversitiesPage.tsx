@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Search, MapPin, Users, DollarSign, BookOpen, Filter, Grid2x2 as Grid, List } from 'lucide-react';
-import { useLanguage } from '../context/LanguageContext';
-import universitiesData from '../data/universities.json';
 import './universities-page.css';
 
 interface University {
@@ -17,19 +15,94 @@ interface University {
   image: string;
   type: string;
   size: string;
-  estimatedGPA?: number | null;
 }
 
-// Load real university data from JSON file
-const universities: University[] = universitiesData as University[];
+// Mock university data
+const universities: University[] = [
+  {
+    id: '1',
+    name: '하버드 대학교',
+    englishName: 'Harvard University',
+    location: '메사추세츠 케임브리지',
+    tuition: 54269,
+    acceptanceRate: 5.4,
+    satRange: '1460-1570',
+    actRange: '33-35',
+    image: 'https://images.pexels.com/photos/207684/pexels-photo-207684.jpeg?auto=compress&cs=tinysrgb&w=400',
+    type: '사립',
+    size: '중간 (5,000-15,000)',
+  },
+  {
+    id: '2',
+    name: '스탠퍼드 대학교',
+    englishName: 'Stanford University',
+    location: '캘리포니아 스탠퍼드',
+    tuition: 56169,
+    acceptanceRate: 4.8,
+    satRange: '1440-1570',
+    actRange: '32-35',
+    image: 'https://images.pexels.com/photos/1454360/pexels-photo-1454360.jpeg?auto=compress&cs=tinysrgb&w=400',
+    type: '사립',
+    size: '중간 (5,000-15,000)',
+  },
+  {
+    id: '3',
+    name: '메사추세츠 공과대학교',
+    englishName: 'Massachusetts Institute of Technology (MIT)',
+    location: '메사추세츠 케임브리지',
+    tuition: 53790,
+    acceptanceRate: 7.3,
+    satRange: '1470-1570',
+    actRange: '33-35',
+    image: 'https://images.pexels.com/photos/1454360/pexels-photo-1454360.jpeg?auto=compress&cs=tinysrgb&w=400',
+    type: '사립',
+    size: '작음 (<5,000)',
+  },
+  {
+    id: '4',
+    name: '캘리포니아 대학교 버클리',
+    englishName: 'University of California, Berkeley',
+    location: '캘리포니아 버클리',
+    tuition: 44007,
+    acceptanceRate: 17.5,
+    satRange: '1330-1530',
+    actRange: '30-35',
+    image: 'https://images.pexels.com/photos/1454360/pexels-photo-1454360.jpeg?auto=compress&cs=tinysrgb&w=400',
+    type: '공립',
+    size: '큼 (15,000+)',
+  },
+  {
+    id: '5',
+    name: '뉴욕 대학교',
+    englishName: 'New York University (NYU)',
+    location: '뉴욕 뉴욕',
+    tuition: 53308,
+    acceptanceRate: 21.1,
+    satRange: '1350-1530',
+    actRange: '30-34',
+    image: 'https://images.pexels.com/photos/1454360/pexels-photo-1454360.jpeg?auto=compress&cs=tinysrgb&w=400',
+    type: '사립',
+    size: '큼 (15,000+)',
+  },
+  {
+    id: '6',
+    name: '펜실베이니아 주립대학교',
+    englishName: 'Pennsylvania State University',
+    location: '펜실베이니아 유니버시티 파크',
+    tuition: 35514,
+    acceptanceRate: 76.0,
+    satRange: '1160-1360',
+    actRange: '25-30',
+    image: 'https://images.pexels.com/photos/1454360/pexels-photo-1454360.jpeg?auto=compress&cs=tinysrgb&w=400',
+    type: '공립',
+    size: '큼 (15,000+)',
+  },
+];
 
 const UniversitiesPage: React.FC = () => {
   const navigate = useNavigate();
-  const { t, language } = useLanguage();
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
   const [filters, setFilters] = useState({
     types: [] as string[],
     sortBy: '',
@@ -39,7 +112,6 @@ const UniversitiesPage: React.FC = () => {
 
   const filteredUniversities = universities.filter(uni => {
     const matchesSearch = uni.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         uni.englishName.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          uni.location.toLowerCase().includes(searchTerm.toLowerCase());
     
     const matchesType = filters.types.length === 0 || filters.types.includes(uni.type);
@@ -58,13 +130,9 @@ const UniversitiesPage: React.FC = () => {
   const sortedUniversities = [...filteredUniversities].sort((a, b) => {
     switch (filters.sortBy) {
       case 'name-asc':
-        const nameA = language === 'ko' ? a.name : a.englishName;
-        const nameB = language === 'ko' ? b.name : b.englishName;
-        return nameA.localeCompare(nameB);
+        return a.name.localeCompare(b.name);
       case 'name-desc':
-        const nameDescA = language === 'ko' ? a.name : a.englishName;
-        const nameDescB = language === 'ko' ? b.name : b.englishName;
-        return nameDescB.localeCompare(nameDescA);
+        return b.name.localeCompare(a.name);
       case 'sat-asc':
         const aSatMin = parseInt(a.satRange.split('-')[0]);
         const bSatMin = parseInt(b.satRange.split('-')[0]);
@@ -74,12 +142,6 @@ const UniversitiesPage: React.FC = () => {
         const bSatMax = parseInt(b.satRange.split('-')[1]);
         return bSatMax - aSatMax;
       default:
-        // Default: Show universities with real logos first
-        const aHasLogo = a.image.includes('upload.wikimedia.org') || a.image.includes('logos-world.net');
-        const bHasLogo = b.image.includes('upload.wikimedia.org') || b.image.includes('logos-world.net');
-        if (aHasLogo && !bHasLogo) return -1;
-        if (!aHasLogo && bHasLogo) return 1;
-        // If both have logos or both don't, maintain original order
         return 0;
     }
   });
@@ -91,38 +153,18 @@ const UniversitiesPage: React.FC = () => {
         ? prev.types.filter(t => t !== type)
         : [...prev.types, type]
     }));
-    setCurrentPage(1);
   };
 
   const handleSortChange = (sortBy: string) => {
     setFilters(prev => ({ ...prev, sortBy }));
-    setCurrentPage(1);
   };
 
   const handleTuitionRangeChange = (range: [number, number]) => {
     setFilters(prev => ({ ...prev, tuitionRange: range }));
-    setCurrentPage(1);
-  };
-  
-  const handleSearchChange = (term: string) => {
-    setSearchTerm(term);
-    setCurrentPage(1);
   };
 
   const handleSatRangeChange = (range: [number, number]) => {
     setFilters(prev => ({ ...prev, satRange: range }));
-    setCurrentPage(1); // Reset to first page when filters change
-  };
-
-  // Calculate pagination
-  const totalPages = Math.ceil(sortedUniversities.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const paginatedUniversities = sortedUniversities.slice(startIndex, endIndex);
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -130,10 +172,10 @@ const UniversitiesPage: React.FC = () => {
       <div className="universities-container">
         <div className="universities-header">
           <h1 className="universities-title">
-            {t('universities.title')}
+            대학 찾기
           </h1>
           <p className="universities-description">
-            {t('universities.description')}
+            미국 대학을 둘러보고 나에게 맞는 학교를 찾아보세요.
           </p>
         </div>
 
@@ -143,10 +185,10 @@ const UniversitiesPage: React.FC = () => {
               <Search className="universities-search-icon h-5 w-5" />
               <input
                 type="text"
-                placeholder={t('universities.search.placeholder')}
+                placeholder="이름 또는 지역으로 검색"
                 className="universities-search-input"
                 value={searchTerm}
-                onChange={(e) => handleSearchChange(e.target.value)}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
 
@@ -169,48 +211,46 @@ const UniversitiesPage: React.FC = () => {
           <div className="universities-filters">
             <div className="universities-filters-header">
               <Filter className="h-5 w-5" style={{color: '#082F49'}} />
-              <span className="universities-filters-title">{t('universities.filter.title')}</span>
+              <span className="universities-filters-title">필터</span>
             </div>
 
             <div className="universities-filters-content">
               <div className="universities-filter-group">
-                <label className="universities-filter-label">{t('universities.filter.type')}</label>
+                <label className="universities-filter-label">소유 형태</label>
                 <div className="universities-filter-buttons">
                   <button
-                    onClick={() => handleTypeToggle('사립')}
-                    className={`universities-filter-button ${filters.types.includes('사립') ? 'active' : ''}`}
-                    data-testid="button-filter-private"
+                    onClick={() => handleTypeToggle('Private')}
+                    className={`universities-filter-button ${filters.types.includes('Private') ? 'active' : ''}`}
                   >
-                    {t('universities.filter.type.private')}
+                    사립
                   </button>
                   <button
-                    onClick={() => handleTypeToggle('공립')}
-                    className={`universities-filter-button ${filters.types.includes('공립') ? 'active' : ''}`}
-                    data-testid="button-filter-public"
+                    onClick={() => handleTypeToggle('Public')}
+                    className={`universities-filter-button ${filters.types.includes('Public') ? 'active' : ''}`}
                   >
-                    {t('universities.filter.type.public')}
+                    공립
                   </button>
                 </div>
               </div>
 
               <div className="universities-filter-group">
-                <label className="universities-filter-label">{t('universities.filter.sort')}</label>
+                <label className="universities-filter-label">정렬</label>
                 <select
                   value={filters.sortBy}
                   onChange={(e) => handleSortChange(e.target.value)}
                   className="universities-filter-select"
                 >
-                  <option value="">{t('universities.filter.sort.default')}</option>
-                  <option value="name-asc">{t('universities.filter.sort.name-asc')}</option>
-                  <option value="name-desc">{t('universities.filter.sort.name-desc')}</option>
-                  <option value="sat-asc">{t('universities.filter.sort.sat-asc')}</option>
-                  <option value="sat-desc">{t('universities.filter.sort.sat-desc')}</option>
+                  <option value="">기본</option>
+                  <option value="name-asc">알파벳순 (A–Z)</option>
+                  <option value="name-desc">알파벳순 (Z–A)</option>
+                  <option value="sat-asc">SAT 범위순 (오름차순)</option>
+                  <option value="sat-desc">SAT 범위순 (내림차순)</option>
                 </select>
               </div>
 
               <div className="universities-filter-group">
                 <label className="universities-filter-label">
-                  {t('universities.filter.tuition')}: ${filters.tuitionRange[0].toLocaleString()} - ${filters.tuitionRange[1].toLocaleString()}
+                  학비: ${filters.tuitionRange[0].toLocaleString()} - ${filters.tuitionRange[1].toLocaleString()}
                 </label>
                   <div className="px-2">
                     <input
@@ -236,7 +276,7 @@ const UniversitiesPage: React.FC = () => {
 
               <div className="universities-filter-group">
                 <label className="universities-filter-label">
-                  {t('universities.filter.sat')}: {filters.satRange[0]} - {filters.satRange[1]}
+                  SAT 범위: {filters.satRange[0]} - {filters.satRange[1]}
                 </label>
                   <div className="px-2">
                     <input
@@ -265,12 +305,12 @@ const UniversitiesPage: React.FC = () => {
 
           <div style={{marginBottom: '24px'}}>
             <p className="universities-description">
-              {t('universities.results').replace('{total}', universities.length.toString()).replace('{filtered}', sortedUniversities.length.toString())}
+              전체 {universities.length}개 중 {sortedUniversities.length}개 학교
             </p>
           </div>
 
         <div className={viewMode === 'grid' ? 'universities-grid' : 'universities-list'}>
-          {paginatedUniversities.map(university => (
+          {sortedUniversities.map(university => (
             viewMode === 'grid' ? (
               <Link
                 key={university.id}
@@ -279,24 +319,22 @@ const UniversitiesPage: React.FC = () => {
               >
                 <img
                   src={university.image}
-                  alt={language === 'ko' ? university.name : university.englishName}
+                  alt={university.name}
                   className="university-card-image"
                 />
                 <div className="university-card-content">
-                  <h3 className="university-card-title">{language === 'ko' ? university.name : university.englishName}</h3>
-                  {language === 'ko' && university.name !== university.englishName && (
-                    <p className="university-card-subtitle">{university.englishName}</p>
-                  )}
+                  <h3 className="university-card-title">{university.name}</h3>
+                  <p className="university-card-subtitle">{university.englishName}</p>
 
                   <div className="university-card-location">
                     <MapPin className="h-4 w-4" />
-                    <span>{university.location} • {university.type === '공립' ? (language === 'ko' ? '공립' : 'Public') : (language === 'ko' ? '사립' : 'Private')}</span>
+                    <span>{university.location} • {university.type}</span>
                   </div>
 
                   <div className="university-card-stats">
                     <div className="university-card-stat">
                       <Users className="university-card-stat-icon h-4 w-4" />
-                      <span className="university-card-stat-text">{t('universities.acceptance')} {university.acceptanceRate}%</span>
+                      <span className="university-card-stat-text">합격률 {university.acceptanceRate}%</span>
                     </div>
                     <div className="university-card-stat">
                       <DollarSign className="university-card-stat-icon h-4 w-4" />
@@ -321,24 +359,22 @@ const UniversitiesPage: React.FC = () => {
               >
                 <img
                   src={university.image}
-                  alt={language === 'ko' ? university.name : university.englishName}
+                  alt={university.name}
                   className="university-list-image"
                 />
                 <div className="university-list-content">
                   <div className="university-list-header">
-                    <h3 className="university-list-title">{language === 'ko' ? university.name : university.englishName}</h3>
-                    {language === 'ko' && university.name !== university.englishName && (
-                      <p className="university-list-subtitle">{university.englishName}</p>
-                    )}
+                    <h3 className="university-list-title">{university.name}</h3>
+                    <p className="university-list-subtitle">{university.englishName}</p>
                     <div className="university-card-location" style={{marginTop: '8px'}}>
                       <MapPin className="h-4 w-4" />
-                      <span>{university.location} • {university.type === '공립' ? (language === 'ko' ? '공립' : 'Public') : (language === 'ko' ? '사립' : 'Private')}</span>
+                      <span>{university.location} • {university.type}</span>
                     </div>
                   </div>
                   <div className="university-list-stats">
                     <div className="university-card-stat">
                       <Users className="university-card-stat-icon h-4 w-4" />
-                      <span className="university-card-stat-text">{t('universities.acceptance')} {university.acceptanceRate}%</span>
+                      <span className="university-card-stat-text">합격률 {university.acceptanceRate}%</span>
                     </div>
                     <div className="university-card-stat">
                       <DollarSign className="university-card-stat-icon h-4 w-4" />
@@ -362,8 +398,8 @@ const UniversitiesPage: React.FC = () => {
         {sortedUniversities.length === 0 && (
           <div className="universities-empty">
             <BookOpen className="universities-empty-icon" />
-            <h3 className="universities-empty-title">{t('universities.empty.title')}</h3>
-            <p className="universities-empty-text">{t('universities.empty.description')}</p>
+            <h3 className="universities-empty-title">해당되는 학교가 없습니다</h3>
+            <p className="universities-empty-text">필터를 해제하고 다시 시도해보세요.</p>
             <button
               onClick={() => setFilters({
                 types: [],
@@ -373,103 +409,8 @@ const UniversitiesPage: React.FC = () => {
               })}
               className="universities-filter-button active" style={{marginTop: '16px'}}
             >
-              {t('universities.empty.reset')}
+              필터 해제
             </button>
-          </div>
-        )}
-
-        {/* Pagination Controls */}
-        {sortedUniversities.length > 0 && totalPages > 1 && (
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: '12px',
-            marginTop: '40px',
-            marginBottom: '40px'
-          }}>
-            <button
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-              style={{
-                padding: '10px 20px',
-                backgroundColor: currentPage === 1 ? '#e5e7eb' : '#1e3a8a',
-                color: currentPage === 1 ? '#9ca3af' : 'white',
-                border: 'none',
-                borderRadius: '8px',
-                cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-                fontWeight: '500',
-                fontSize: '14px'
-              }}
-              data-testid="button-prev-page"
-            >
-              {language === 'ko' ? '이전' : 'Previous'}
-            </button>
-
-            <div style={{ display: 'flex', gap: '8px' }}>
-              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                let pageNum;
-                if (totalPages <= 5) {
-                  pageNum = i + 1;
-                } else if (currentPage <= 3) {
-                  pageNum = i + 1;
-                } else if (currentPage >= totalPages - 2) {
-                  pageNum = totalPages - 4 + i;
-                } else {
-                  pageNum = currentPage - 2 + i;
-                }
-                
-                return (
-                  <button
-                    key={pageNum}
-                    onClick={() => handlePageChange(pageNum)}
-                    style={{
-                      padding: '10px 16px',
-                      backgroundColor: currentPage === pageNum ? '#1e3a8a' : 'white',
-                      color: currentPage === pageNum ? 'white' : '#1e3a8a',
-                      border: '2px solid #1e3a8a',
-                      borderRadius: '8px',
-                      cursor: 'pointer',
-                      fontWeight: '500',
-                      fontSize: '14px',
-                      minWidth: '44px'
-                    }}
-                    data-testid={`button-page-${pageNum}`}
-                  >
-                    {pageNum}
-                  </button>
-                );
-              })}
-            </div>
-
-            <button
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              style={{
-                padding: '10px 20px',
-                backgroundColor: currentPage === totalPages ? '#e5e7eb' : '#1e3a8a',
-                color: currentPage === totalPages ? '#9ca3af' : 'white',
-                border: 'none',
-                borderRadius: '8px',
-                cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-                fontWeight: '500',
-                fontSize: '14px'
-              }}
-              data-testid="button-next-page"
-            >
-              {language === 'ko' ? '다음' : 'Next'}
-            </button>
-
-            <span style={{
-              marginLeft: '16px',
-              color: '#6b7280',
-              fontSize: '14px'
-            }}>
-              {language === 'ko' 
-                ? `${currentPage} / ${totalPages} 페이지` 
-                : `Page ${currentPage} of ${totalPages}`
-              }
-            </span>
           </div>
         )}
       </div>

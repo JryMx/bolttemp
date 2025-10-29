@@ -31,7 +31,7 @@
   font-family: 'Wanted Sans Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 140%;
   letter-spacing: -0.02em;
   color: #082F49;
@@ -147,27 +147,14 @@
 
 .universities-filters-content {
   display: grid;
-  grid-template-columns: auto auto;
-  gap: 32px 48px;
-  align-items: start;
-}
-
-@media (max-width: 1024px) {
-  .universities-filters-content {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
 }
 
 .universities-filter-group {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  min-width: 0;
-}
-
-.universities-filter-group.full-width {
-  grid-column: 1 / -1;
 }
 
 .universities-filter-label {
@@ -259,10 +246,7 @@
 .university-card-image {
   width: 100%;
   height: 180px;
-  object-fit: contain;
-  object-position: center;
-  background: #FFFFFF;
-  padding: 20px;
+  object-fit: cover;
 }
 
 .university-card-content {
