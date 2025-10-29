@@ -681,7 +681,7 @@
 /* Majors List */
 .majors-list {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 12px;
   max-height: 250px;
   overflow-y: auto;
