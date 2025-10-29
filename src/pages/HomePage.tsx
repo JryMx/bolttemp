@@ -732,7 +732,11 @@ const HomePage: React.FC = () => {
 
           <div className="majors-cta">
             <p className="majors-cta-text">단 3분! 나에게 딱 맞는 전공을 찾아보세요</p>
-            <button className="majors-cta-button">
+            <button 
+              className="majors-cta-button"
+              onClick={() => window.open('https://smore.im/quiz/qJ6zmxtDvp', '_blank')}
+              data-testid="button-major-quiz"
+            >
               <span className="majors-cta-button-text">전공 찾고 대학 로드맵 준비하기</span>
             </button>
           </div>
