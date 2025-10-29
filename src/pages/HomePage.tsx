@@ -1,40 +1,145 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Target, Users, ArrowRight, BookOpen, Trophy, Globe, Calculator, MapPin } from 'lucide-react';
+import { Search, Target, Users, ArrowRight, BookOpen, Trophy, Globe, Calculator, MapPin, Loader2 } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
+import universitiesData from '../data/universities.json';
 import '../hero-section-style.css';
 import './profile-calculator.css';
 import './homepage-calculator.css';
 import './homepage.css';
 
+interface School {
+  name: string;
+  state: string;
+  probability: number;
+  quality_score: number;
+}
+
+interface APIResponse {
+  student_profile: {
+    gpa: number;
+    sat_score: number | null;
+    act_score: number | null;
+    test_type: 'SAT' | 'ACT';
+  };
+  summary: {
+    total_schools: number;
+    total_analyzed: number;
+    safety_schools: number;
+    target_schools: number;
+    reach_schools: number;
+    prestige_schools: number;
+    probability_thresholds: {
+      safety: number;
+      target: number;
+      reach: number;
+    };
+  };
+  recommendations: {
+    safety: School[];
+    target: School[];
+    reach: School[];
+    prestige: School[];
+  };
+}
+
 const HomePage: React.FC = () => {
+  const { t, language } = useLanguage();
   const [gpa, setGpa] = useState('');
+  const [testType, setTestType] = useState<'SAT' | 'ACT'>('SAT');
   const [satEBRW, setSatEBRW] = useState('');
   const [satMath, setSatMath] = useState('');
-  const [showResult, setShowResult] = useState(false);
+  const [actScore, setActScore] = useState('');
+  const [results, setResults] = useState<APIResponse | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const calculateSimpleScore = () => {
-    if (!gpa || !satEBRW || !satMath) return 0;
+  const fetchAnalysis = async () => {
+    if (!gpa) return;
     
-    const gpaScore = (parseFloat(gpa) / 4.0) * 40; // 40% weight for GPA
-    const satTotal = parseInt(satEBRW) + parseInt(satMath);
-    const satScore = (satTotal / 1600) * 60; // 60% weight for SAT
+    setLoading(true);
+    setError('');
     
-    return Math.round(Math.min(gpaScore + satScore, 100));
-  };
+    try {
+      let url = 'https://dev.preplounge.ai/?';
+      url += `gpa=${gpa}`;
+      
+      if (testType === 'SAT' && satMath && satEBRW) {
+        url += `&sat_math=${satMath}&sat_english=${satEBRW}`;
+      } else if (testType === 'ACT' && actScore) {
+        url += `&act=${actScore}`;
+      } else {
+        setError(language === 'ko' ? '모든 필수 항목을 입력해주세요.' : 'Please fill in all required fields.');
+        setLoading(false);
+        return;
+      }
 
-  const handleCalculate = () => {
-    if (gpa && satEBRW && satMath) {
-      setShowResult(true);
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+      }
+      
+      const data: APIResponse = await response.json();
+      setResults(data);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      console.error('API error:', errorMessage, err);
+      setError(language === 'ko' ? '분석 중 오류가 발생했습니다. 다시 시도해주세요.' : 'An error occurred during analysis. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const profileScore = calculateSimpleScore();
-  const getScoreCategory = (score: number) => {
-    if (score >= 90) return { label: 'Excellent', color: 'text-green-600' };
-    if (score >= 80) return { label: 'Very Good', color: 'text-blue-600' };
-    if (score >= 70) return { label: 'Good', color: 'text-orange-600' };
-    if (score >= 60) return { label: 'Fair', color: 'text-yellow-600' };
-    return { label: 'Needs Improvement', color: 'text-red-600' };
+  const handleAnalyze = () => {
+    fetchAnalysis();
+  };
+
+  const isFormValid = () => {
+    if (!gpa) return false;
+    if (testType === 'SAT') return satMath && satEBRW;
+    if (testType === 'ACT') return actScore;
+    return false;
+  };
+
+  const extractEnglishName = (fullName: string) => {
+    const match = fullName.match(/^([^(]+)/);
+    return match ? match[1].trim() : fullName;
+  };
+
+  const extractKoreanName = (fullName: string) => {
+    const match = fullName.match(/\(([^)]+)\)/);
+    return match ? match[1] : fullName;
+  };
+
+  const getDisplayName = (fullName: string) => {
+    return language === 'ko' ? extractKoreanName(fullName) : extractEnglishName(fullName);
+  };
+
+  const getDisplayState = (fullState: string) => {
+    return language === 'ko' ? fullState.match(/\(([^)]+)\)/)?.[1] || fullState : fullState.split(' (')[0];
+  };
+
+  const findUniversityId = (schoolName: string): string | null => {
+    const englishName = extractEnglishName(schoolName);
+    const koreanName = extractKoreanName(schoolName);
+    
+    const university = universitiesData.find((uni: any) => 
+      uni.englishName === englishName || uni.name === koreanName
+    );
+    
+    return university ? university.id : null;
+  };
+
+  const getTopQualitySchools = (schools: School[], count: number = 3): School[] => {
+    return [...schools]
+      .sort((a, b) => b.quality_score - a.quality_score)
+      .slice(0, count);
   };
 
   return (
@@ -44,23 +149,24 @@ const HomePage: React.FC = () => {
         <div className="hero-content">
           <div className="hero-titles">
             <p className="hero-subtitle">
-              AI가 분석하는 나만의 유학 로드맵
+              {t('home.hero.subtitle')}
             </p>
             <h1 className="hero-title">
-              꿈의 대학, 현실이 됩니다
+              {t('home.hero.title')}
             </h1>
           </div>
           <p className="hero-description">
-            복잡한 입시 정보를 한눈에, 개인 맞춤 유학 플랜까지<br />
-            프렙라운지와 함께 성공적인 미국 유학을 시작하세요.
+            {t('home.hero.description').split('\n').map((line, i) => (
+              <span key={i}>{line}{i === 0 && <br />}</span>
+            ))}
           </p>
         </div>
         <div className="hero-buttons">
-          <Link to="/student-profile" className="btn-primary">
-            합격 예측 해보기
+          <Link to="/student-profile" className="btn-primary" data-testid="link-predict">
+            {t('home.hero.cta.predict')}
           </Link>
-          <Link to="/universities" className="btn-secondary">
-            입시 정보 둘러보기
+          <Link to="/universities" className="btn-secondary" data-testid="link-browse">
+            {t('home.hero.cta.input')}
           </Link>
         </div>
       </section>
@@ -75,16 +181,16 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Quick Profile Calculator */}
-      <section className="profile-calculator-section">
+      <section id="profile-calculator" className="profile-calculator-section">
         <div className="profile-calculator-container">
           <div className="profile-calculator-header">
             <div className="profile-calculator-title-group">
               <h2 className="profile-calculator-title">
-                합격 가능성 미리보기
+                {t('home.calculator.title')}
               </h2>
             </div>
             <p className="profile-calculator-subtitle">
-              성적 정보를 입력하고 프로필 점수를 확인해 보세요.
+              {t('home.calculator.subtitle')}
             </p>
           </div>
 
@@ -93,7 +199,7 @@ const HomePage: React.FC = () => {
             <div className="profile-calculator-form">
               <div className="profile-calculator-field">
                 <label className="profile-calculator-label">
-                  GPA (4.0점 만점)
+                  {t('home.calculator.gpa')}
                 </label>
                 <input
                   type="number"
@@ -104,74 +210,287 @@ const HomePage: React.FC = () => {
                   onChange={(e) => setGpa(e.target.value)}
                   className="profile-calculator-input"
                   placeholder="3.8"
+                  data-testid="input-gpa-home"
                 />
               </div>
 
               <div className="profile-calculator-field">
                 <label className="profile-calculator-label">
-                  SAT EBRW (800점 만점)
+                  {language === 'ko' ? '시험 유형' : 'Test Type'}
                 </label>
-                <input
-                  type="number"
-                  min="200"
-                  max="800"
-                  value={satMath}
-                  onChange={(e) => setSatMath(e.target.value)}
-                  className="profile-calculator-input"
-                  placeholder="720"
-                />
+                <div style={{ display: 'flex', gap: '12px' }}>
+                  <button
+                    type="button"
+                    onClick={() => setTestType('SAT')}
+                    className={`profile-calculator-test-toggle ${testType === 'SAT' ? 'active' : ''}`}
+                    data-testid="button-test-sat-home"
+                  >
+                    SAT
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setTestType('ACT')}
+                    className={`profile-calculator-test-toggle ${testType === 'ACT' ? 'active' : ''}`}
+                    data-testid="button-test-act-home"
+                  >
+                    ACT
+                  </button>
+                </div>
               </div>
 
-              <div className="profile-calculator-field">
-                <label className="profile-calculator-label">
-                  SAT Math (800점 만점)
-                </label>
-                <input
-                  type="number"
-                  min="200"
-                  max="800"
-                  value={satEBRW}
-                  onChange={(e) => setSatEBRW(e.target.value)}
-                  className="profile-calculator-input"
-                  placeholder="730"
-                />
-              </div>
+              {testType === 'SAT' ? (
+                <>
+                  <div className="profile-calculator-field">
+                    <label className="profile-calculator-label">
+                      {t('home.calculator.sat.math')}
+                    </label>
+                    <input
+                      type="number"
+                      min="200"
+                      max="800"
+                      value={satMath}
+                      onChange={(e) => setSatMath(e.target.value)}
+                      className="profile-calculator-input"
+                      placeholder="720"
+                      data-testid="input-sat-math-home"
+                    />
+                  </div>
+
+                  <div className="profile-calculator-field">
+                    <label className="profile-calculator-label">
+                      {t('home.calculator.sat.ebrw')}
+                    </label>
+                    <input
+                      type="number"
+                      min="200"
+                      max="800"
+                      value={satEBRW}
+                      onChange={(e) => setSatEBRW(e.target.value)}
+                      className="profile-calculator-input"
+                      placeholder="730"
+                      data-testid="input-sat-ebrw-home"
+                    />
+                  </div>
+                </>
+              ) : (
+                <div className="profile-calculator-field">
+                  <label className="profile-calculator-label">
+                    {language === 'ko' ? 'ACT 점수 (36점 만점)' : 'ACT Score (out of 36)'}
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="36"
+                    value={actScore}
+                    onChange={(e) => setActScore(e.target.value)}
+                    className="profile-calculator-input"
+                    placeholder="30"
+                    data-testid="input-act-home"
+                  />
+                </div>
+              )}
+
+              <button
+                onClick={handleAnalyze}
+                disabled={!isFormValid() || loading}
+                className="profile-calculator-button"
+                style={{ marginTop: '20px' }}
+                data-testid="button-analyze-home"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="animate-spin" size={20} />
+                    <span>{language === 'ko' ? '분석 중...' : 'Analyzing...'}</span>
+                  </>
+                ) : (
+                  <span>{language === 'ko' ? '분석 시작하기' : 'Start Analysis'}</span>
+                )}
+              </button>
+
+              {error && (
+                <div className="profile-calculator-error" data-testid="text-error-home">
+                  {error}
+                </div>
+              )}
             </div>
 
-            {/* Right side - Results Card */}
-            <div className="homepage-calculator-result">
-              <div className="homepage-calculator-result-content">
-                <div className="homepage-calculator-score-group">
-                  <span className="homepage-calculator-score-label">프로필 점수</span>
-                  <div className="homepage-calculator-score-display">
-                    <span className="homepage-calculator-score-value">
-                      {(gpa && satEBRW && satMath) ? calculateSimpleScore() : '--'}
-                    </span>
-                    <span className="homepage-calculator-score-total">/ 100점</span>
+            {/* Right side - Results Display */}
+            {results && (
+              <div className="profile-calculator-results">
+                <div className="results-summary">
+                  <h3 className="results-title" data-testid="text-results-title-home">
+                    {language === 'ko' ? '분석 결과' : 'Analysis Results'}
+                  </h3>
+                  <div className="results-stats">
+                    <div className="stat-card" data-testid="card-total-schools-home">
+                      <div className="stat-value">{results.summary.total_analyzed}</div>
+                      <div className="stat-label">{language === 'ko' ? '분석된 대학' : 'Schools Analyzed'}</div>
+                    </div>
+                    <div className="stat-card safety" data-testid="card-safety-home">
+                      <div className="stat-value">{results.summary.safety_schools}</div>
+                      <div className="stat-label">{language === 'ko' ? '안전권' : 'Safety'}</div>
+                    </div>
+                    <div className="stat-card target" data-testid="card-target-home">
+                      <div className="stat-value">{results.summary.target_schools}</div>
+                      <div className="stat-label">{language === 'ko' ? '적정권' : 'Target'}</div>
+                    </div>
+                    <div className="stat-card reach" data-testid="card-reach-home">
+                      <div className="stat-value">{results.summary.reach_schools}</div>
+                      <div className="stat-label">{language === 'ko' ? '상향권' : 'Reach'}</div>
+                    </div>
+                    <div className="stat-card prestige" data-testid="card-prestige-home">
+                      <div className="stat-value">{results.summary.prestige_schools}</div>
+                      <div className="stat-label">{language === 'ko' ? '명문' : 'Prestige'}</div>
+                    </div>
                   </div>
                 </div>
 
-                <p className="homepage-calculator-description">
-                 GPA와 SAT 점수를 기반으로 한 간단한 계산입니다.<br></br>과외활동, 에세이, 개인화된 대학 추천을 포함한 종합적인<br></br>분석을 위해서는 전체 프로필을 완성해주세요.
-                </p>
-              </div>
+                {/* Safety Schools */}
+                {results.recommendations.safety.length > 0 && (
+                  <div className="school-category">
+                    <h4 className="category-title safety" data-testid="title-safety-schools-home">
+                      {language === 'ko' ? '안전권 대학 (상위 12개)' : 'Safety Schools (Top 12)'}
+                      <span className="category-count">({results.recommendations.safety.length} {language === 'ko' ? '개 중' : 'total'})</span>
+                    </h4>
+                    <div className="schools-grid">
+                      {getTopQualitySchools(results.recommendations.safety, 12).map((school, idx) => {
+                        const universityId = findUniversityId(school.name);
+                        const cardContent = (
+                          <>
+                            <div className="school-name">{getDisplayName(school.name)}</div>
+                            <div className="school-state">{getDisplayState(school.state)}</div>
+                            <div className="school-probability">
+                              {language === 'ko' ? '합격 확률' : 'Admission Probability'}: <strong>{(school.probability * 100).toFixed(0)}%</strong>
+                            </div>
+                          </>
+                        );
+                        
+                        return universityId ? (
+                          <Link key={idx} to={`/university/${universityId}`} className="school-card clickable" data-testid={`school-safety-home-${idx}`}>
+                            {cardContent}
+                          </Link>
+                        ) : (
+                          <div key={idx} className="school-card" data-testid={`school-safety-home-${idx}`}>
+                            {cardContent}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
 
-              {(gpa && satEBRW && satMath) ? (
+                {/* Target Schools */}
+                {results.recommendations.target.length > 0 && (
+                  <div className="school-category">
+                    <h4 className="category-title target" data-testid="title-target-schools-home">
+                      {language === 'ko' ? '적정권 대학 (상위 12개)' : 'Target Schools (Top 12)'}
+                      <span className="category-count">({results.recommendations.target.length} {language === 'ko' ? '개 중' : 'total'})</span>
+                    </h4>
+                    <div className="schools-grid">
+                      {getTopQualitySchools(results.recommendations.target, 12).map((school, idx) => {
+                        const universityId = findUniversityId(school.name);
+                        const cardContent = (
+                          <>
+                            <div className="school-name">{getDisplayName(school.name)}</div>
+                            <div className="school-state">{getDisplayState(school.state)}</div>
+                            <div className="school-probability">
+                              {language === 'ko' ? '합격 확률' : 'Admission Probability'}: <strong>{(school.probability * 100).toFixed(0)}%</strong>
+                            </div>
+                          </>
+                        );
+                        
+                        return universityId ? (
+                          <Link key={idx} to={`/university/${universityId}`} className="school-card clickable" data-testid={`school-target-home-${idx}`}>
+                            {cardContent}
+                          </Link>
+                        ) : (
+                          <div key={idx} className="school-card" data-testid={`school-target-home-${idx}`}>
+                            {cardContent}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Reach Schools */}
+                {results.recommendations.reach.length > 0 && (
+                  <div className="school-category">
+                    <h4 className="category-title reach" data-testid="title-reach-schools-home">
+                      {language === 'ko' ? '상향권 대학 (상위 12개)' : 'Reach Schools (Top 12)'}
+                      <span className="category-count">({results.recommendations.reach.length} {language === 'ko' ? '개 중' : 'total'})</span>
+                    </h4>
+                    <div className="schools-grid">
+                      {getTopQualitySchools(results.recommendations.reach, 12).map((school, idx) => {
+                        const universityId = findUniversityId(school.name);
+                        const cardContent = (
+                          <>
+                            <div className="school-name">{getDisplayName(school.name)}</div>
+                            <div className="school-state">{getDisplayState(school.state)}</div>
+                            <div className="school-probability">
+                              {language === 'ko' ? '합격 확률' : 'Admission Probability'}: <strong>{(school.probability * 100).toFixed(0)}%</strong>
+                            </div>
+                          </>
+                        );
+                        
+                        return universityId ? (
+                          <Link key={idx} to={`/university/${universityId}`} className="school-card clickable" data-testid={`school-reach-home-${idx}`}>
+                            {cardContent}
+                          </Link>
+                        ) : (
+                          <div key={idx} className="school-card" data-testid={`school-reach-home-${idx}`}>
+                            {cardContent}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Prestige Schools */}
+                {results.recommendations.prestige.length > 0 && (
+                  <div className="school-category">
+                    <h4 className="category-title prestige" data-testid="title-prestige-schools-home">
+                      {language === 'ko' ? '명문 대학 (상위 12개)' : 'Prestige Schools (Top 12)'}
+                      <span className="category-count">({results.recommendations.prestige.length} {language === 'ko' ? '개 중' : 'total'})</span>
+                    </h4>
+                    <div className="schools-grid">
+                      {getTopQualitySchools(results.recommendations.prestige, 12).map((school, idx) => {
+                        const universityId = findUniversityId(school.name);
+                        const cardContent = (
+                          <>
+                            <div className="school-name">{getDisplayName(school.name)}</div>
+                            <div className="school-state">{getDisplayState(school.state)}</div>
+                            <div className="school-probability">
+                              {language === 'ko' ? '합격 확률' : 'Admission Probability'}: <strong>{(school.probability * 100).toFixed(0)}%</strong>
+                            </div>
+                          </>
+                        );
+                        
+                        return universityId ? (
+                          <Link key={idx} to={`/university/${universityId}`} className="school-card clickable" data-testid={`school-prestige-home-${idx}`}>
+                            {cardContent}
+                          </Link>
+                        ) : (
+                          <div key={idx} className="school-card" data-testid={`school-prestige-home-${idx}`}>
+                            {cardContent}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
                 <Link
-                  to="/student-profile"
-                  className="homepage-calculator-button"
+                  to="/profile-calculator"
+                  className="profile-calculator-button"
+                  style={{ marginTop: '30px' }}
+                  data-testid="button-full-analysis-home"
                 >
-                  <span className="homepage-calculator-button-text">합격 가능성 상세 분석하기</span>
+                  <span>{language === 'ko' ? '전체 분석 페이지로 이동' : 'Go to Full Analysis Page'}</span>
                 </Link>
-              ) : (
-                <button
-                  disabled
-                  className="homepage-calculator-button"
-                >
-                  <span className="homepage-calculator-button-text">합격 가능성 상세 분석하기</span>
-                </button>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -181,10 +500,10 @@ const HomePage: React.FC = () => {
         <div className="features-container">
           <div className="features-header">
             <h2 className="features-title">
-              핵심 서비스
+              {t('home.features.title')}
             </h2>
             <p className="features-subtitle">
-              프렙라운지는 국제학교 학생들의 성공적인 대입을 위한 다양한 서비스를 제공합니다.
+              {t('home.features.subtitle')}
             </p>
           </div>
 
@@ -192,51 +511,63 @@ const HomePage: React.FC = () => {
             <div className="feature-card">
               <div className="feature-card-content">
                 <div className="feature-title-row">
-                  <h3 className="feature-card-title">학교 정보<br></br>모아보기</h3>
+                  <h3 className="feature-card-title">
+                    {t('home.features.schools.title').split('\n').map((line, i) => (
+                      <span key={i}>{line}{i === 0 && <br />}</span>
+                    ))}
+                  </h3>
                   <div className="feature-icon-wrapper blue">
                     <Search className="feature-icon" />
                   </div>
                 </div>
                 <p className="feature-description">
-                  입학에 필요한 서류와 지원 일정 등, 미국 1,200여 개 대학의 입학 정보를 한눈에 확인하세요.
+                  {t('home.features.schools.description')}
                 </p>
               </div>
-              <Link to="/universities" className="feature-link blue">
-                바로가기 →
+              <Link to="/universities" className="feature-link blue" data-testid="link-schools-feature">
+                {t('home.features.link')}
               </Link>
             </div>
 
             <div className="feature-card">
               <div className="feature-card-content">
                 <div className="feature-title-row">
-                  <h3 className="feature-card-title">개인 맞춤<br></br>프로필 분석</h3>
+                  <h3 className="feature-card-title">
+                    {t('home.features.profile.title').split('\n').map((line, i) => (
+                      <span key={i}>{line}{i === 0 && <br />}</span>
+                    ))}
+                  </h3>
                   <div className="feature-icon-wrapper green">
                     <Target className="feature-icon" />
                   </div>
                 </div>
                 <p className="feature-description">
-                  학생의 성적과 대외활동 경력을 토대로 AI가 입학 가능성을 분석해줘요.
+                  {t('home.features.profile.description')}
                 </p>
               </div>
-              <Link to="/student-profile" className="feature-link green">
-                바로가기 →
+              <Link to="/student-profile" className="feature-link green" data-testid="link-profile-feature">
+                {t('home.features.link')}
               </Link>
             </div>
 
             <div className="feature-card">
               <div className="feature-card-content">
                 <div className="feature-title-row">
-                  <h3 className="feature-card-title">컨설팅 프로그램<br></br> 비교/추천</h3>
+                  <h3 className="feature-card-title">
+                    {t('home.features.consulting.title').split('\n').map((line, i) => (
+                      <span key={i}>{line}{i === 0 && <br />}</span>
+                    ))}
+                  </h3>
                   <div className="feature-icon-wrapper orange">
                     <Users className="feature-icon" />
                   </div>
                 </div>
                 <p className="feature-description">
-                  국내 컨설팅 학원을 비교하고 프로필 강화를 위한 최적의 프로그램을 만나보세요.
+                  {t('home.features.consulting.description')}
                 </p>
               </div>
-              <Link to="/consulting" className="feature-link orange">
-                바로가기 →
+              <Link to="/consulting" className="feature-link orange" data-testid="link-consulting-feature">
+                {t('home.features.link')}
               </Link>
             </div>
           </div>
@@ -248,10 +579,12 @@ const HomePage: React.FC = () => {
         <div className="majors-container">
           <div className="majors-header">
             <h2 className="majors-title">
-              전공 선택, 아직도 고민되시나요?
+              {t('home.majors.title')}
             </h2>
             <p className="majors-subtitle">
-              간단한 테스트로 나에게 맞는 전공을 찾아보세요.<br></br>* 평균 연봉과 취업률은 추정치입니다.
+              {t('home.majors.subtitle').split('\n').map((line, i) => (
+                <span key={i}>{line}{i === 0 && <br />}</span>
+              ))}
             </p>
           </div>
 
@@ -261,19 +594,19 @@ const HomePage: React.FC = () => {
                 <BookOpen className="major-icon" />
               </div>
               <div className="major-content">
-                <h3 className="major-card-title">공학 (Engineering)</h3>
+                <h3 className="major-card-title">{t('home.majors.engineering')}</h3>
                 <div className="major-details">
-                  <p className="major-specializations">컴퓨터 과학, 전기공학, 기계공학</p>
+                  <p className="major-specializations">{t('home.majors.engineering.specializations')}</p>
                 </div>
                 <div className="major-stats">
                   <div className="major-stat-badge">
-                    <span className="major-stat-text">평균 연봉 $85,000</span>
+                    <span className="major-stat-text">{t('home.majors.engineering.salary')}</span>
                   </div>
                   <div className="major-stat-badge">
-                    <span className="major-stat-text">취업률 94%</span>
+                    <span className="major-stat-text">{t('home.majors.engineering.employment')}</span>
                   </div>
                   <div className="major-stat-badge">
-                    <span className="major-stat-text">STEM OPT 3년 가능</span>
+                    <span className="major-stat-text">{t('home.majors.engineering.opt')}</span>
                   </div>
                 </div>
               </div>
@@ -284,19 +617,19 @@ const HomePage: React.FC = () => {
                 <Trophy className="major-icon" />
               </div>
               <div className="major-content">
-                <h3 className="major-card-title">경영 (Business)</h3>
+                <h3 className="major-card-title">{t('home.majors.business')}</h3>
                 <div className="major-details">
-                  <p className="major-specializations">경영학, 경제학, 금융학, 마케팅</p>
+                  <p className="major-specializations">{t('home.majors.business.specializations')}</p>
                 </div>
                 <div className="major-stats">
                   <div className="major-stat-badge">
-                    <span className="major-stat-text">평균 연봉 $78,000</span>
+                    <span className="major-stat-text">{t('home.majors.business.salary')}</span>
                   </div>
                   <div className="major-stat-badge">
-                    <span className="major-stat-text">취업률 88%</span>
+                    <span className="major-stat-text">{t('home.majors.business.employment')}</span>
                   </div>
                   <div className="major-stat-badge">
-                    <span className="major-stat-text">네트워킹 기회 풍부</span>
+                    <span className="major-stat-text">{t('home.majors.business.networking')}</span>
                   </div>
                 </div>
               </div>
@@ -307,19 +640,19 @@ const HomePage: React.FC = () => {
                 <BookOpen className="major-icon" />
               </div>
               <div className="major-content">
-                <h3 className="major-card-title">인문학 (Liberal Arts)</h3>
+                <h3 className="major-card-title">{t('home.majors.liberal')}</h3>
                 <div className="major-details">
-                  <p className="major-specializations">문학, 철학, 역사, 언어학, 문화연구</p>
+                  <p className="major-specializations">{t('home.majors.liberal.specializations')}</p>
                 </div>
                 <div className="major-stats">
                   <div className="major-stat-badge">
-                    <span className="major-stat-text">평균 연봉 $65,000</span>
+                    <span className="major-stat-text">{t('home.majors.liberal.salary')}</span>
                   </div>
                   <div className="major-stat-badge">
-                    <span className="major-stat-text">취업률 82%</span>
+                    <span className="major-stat-text">{t('home.majors.liberal.employment')}</span>
                   </div>
                   <div className="major-stat-badge">
-                    <span className="major-stat-text">비판적 사고력 개발</span>
+                    <span className="major-stat-text">{t('home.majors.liberal.thinking')}</span>
                   </div>
                 </div>
               </div>
@@ -330,19 +663,19 @@ const HomePage: React.FC = () => {
                 <Globe className="major-icon" />
               </div>
               <div className="major-content">
-                <h3 className="major-card-title">자연과학 (Natural Sciences)</h3>
+                <h3 className="major-card-title">{t('home.majors.natural')}</h3>
                 <div className="major-details">
-                  <p className="major-specializations">생물학, 화학, 물리학, 수학, 환경과학</p>
+                  <p className="major-specializations">{t('home.majors.natural.specializations')}</p>
                 </div>
                 <div className="major-stats">
                   <div className="major-stat-badge">
-                    <span className="major-stat-text">평균 연봉 $72,000</span>
+                    <span className="major-stat-text">{t('home.majors.natural.salary')}</span>
                   </div>
                   <div className="major-stat-badge">
-                    <span className="major-stat-text">취업률 85%</span>
+                    <span className="major-stat-text">{t('home.majors.natural.employment')}</span>
                   </div>
                   <div className="major-stat-badge">
-                    <span className="major-stat-text">대학원 진학률 높음</span>
+                    <span className="major-stat-text">{t('home.majors.natural.graduate')}</span>
                   </div>
                 </div>
               </div>
@@ -353,19 +686,19 @@ const HomePage: React.FC = () => {
                 <Search className="major-icon" />
               </div>
               <div className="major-content">
-                <h3 className="major-card-title">사회과학 (Social Sciences)</h3>
+                <h3 className="major-card-title">{t('home.majors.social')}</h3>
                 <div className="major-details">
-                  <p className="major-specializations">심리학, 정치학, 사회학, 국제관계학</p>
+                  <p className="major-specializations">{t('home.majors.social.specializations')}</p>
                 </div>
                 <div className="major-stats">
                   <div className="major-stat-badge">
-                    <span className="major-stat-text">평균 연봉 $68,000</span>
+                    <span className="major-stat-text">{t('home.majors.social.salary')}</span>
                   </div>
                   <div className="major-stat-badge">
-                    <span className="major-stat-text">취업률 83%</span>
+                    <span className="major-stat-text">{t('home.majors.social.employment')}</span>
                   </div>
                   <div className="major-stat-badge">
-                    <span className="major-stat-text">사회 문제 해결</span>
+                    <span className="major-stat-text">{t('home.majors.social.problem')}</span>
                   </div>
                 </div>
               </div>

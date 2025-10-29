@@ -82,7 +82,6 @@
   align-items: center;
   padding: 6px 12px;
   background: #FFFBEB;
-  border: 1px solid #FACC15;
   border-radius: 9999px;
   width: fit-content;
 }
@@ -94,7 +93,7 @@
   font-size: 12px;
   line-height: 100%;
   letter-spacing: -0.01em;
-  color: #F59E0B;
+  color: #082F49;
 }
 
 .consulting-notice-title {
@@ -170,8 +169,8 @@
   width: 100%;
   padding: 14px 12px 14px 44px;
   background: #FFFFFF;
-  border: 2px solid #E5E7EB;
-  border-radius: 12px;
+  border: 1px solid #E7E5E4;
+  border-radius: 8px;
   font-family: 'Wanted Sans Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-style: normal;
   font-weight: 500;
@@ -179,7 +178,7 @@
   line-height: 100%;
   letter-spacing: -0.005em;
   color: #082F49;
-  transition: all 0.2s ease;
+  transition: border-color 0.3s ease;
 }
 
 .consulting-search-input::placeholder {
@@ -188,8 +187,7 @@
 
 .consulting-search-input:focus {
   outline: none;
-  border-color: #FACC15;
-  background: #FFFFFF;
+  border-color: #082F49;
 }
 
 /* Tags Section */
