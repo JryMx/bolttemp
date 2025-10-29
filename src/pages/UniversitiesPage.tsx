@@ -255,6 +255,22 @@ const UniversitiesPage: React.FC = () => {
             </div>
           </div>
 
+        {/* Results Counter */}
+        <div style={{
+          marginBottom: '24px',
+          padding: '12px 0',
+          fontFamily: 'Wanted Sans Variable, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif',
+          fontSize: '15px',
+          fontWeight: '600',
+          color: '#082F49',
+          letterSpacing: '-0.01em'
+        }} data-testid="text-results-count">
+          {language === 'ko' 
+            ? `전체 ${universities.length}개 중 ${sortedUniversities.length}개 학교`
+            : `Showing ${sortedUniversities.length} of ${universities.length} schools`
+          }
+        </div>
+
         <div className={viewMode === 'grid' ? 'universities-grid' : 'universities-list'}>
           {paginatedUniversities.map(university => (
             viewMode === 'grid' ? (
