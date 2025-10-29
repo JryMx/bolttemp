@@ -121,15 +121,13 @@ const ConsultingPage: React.FC = () => {
 
   const popularTags = [
     'SAT 준비',
+    'AP 수업',
+    'IB 수업',
     '에세이 작성',
     '면접 코칭',
     'STEM 프로그램',
-    '아이비리그 준비',
-    '영어 능력',
-    '리더십 개발',
     '연구 프로젝트',
     '장학금 지원',
-    '문화 적응'
   ];
 
   const filteredPrograms = consultingPrograms.filter(program => {
@@ -271,7 +269,7 @@ const ConsultingPage: React.FC = () => {
         </div>
 
         <div className="consulting-results-info">
-          전체 {consultingPrograms.length}개 중 {filteredPrograms.length}개의 컨설팅 프로그램을 표시하고 있습니다
+          전체 {consultingPrograms.length}개 중 {filteredPrograms.length}개의 컨설팅 프로그램
         </div>
 
         <div className="consulting-programs-list">
