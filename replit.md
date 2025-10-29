@@ -22,7 +22,7 @@ PrepLounge is an AI-powered study abroad platform designed to assist students in
 - **Location Search**: Integration with OpenStreetMap's Nominatim API for geocoding and standardizing location inputs.
 - **Internationalization**: Custom `LanguageContext` for managing and applying translations across the application.
 - **Data Handling**: Integration of real university data from CSV sources, including institution types, GPA, tuition, and acceptance rates, stored in `universities.json`.
-- **Pagination**: Implemented for efficient display and loading of university listings, with smart controls and auto-reset on search/filter.
+- **Infinite Scroll**: Implemented on the Universities page using IntersectionObserver API for seamless browsing, loading 12 universities at a time with smooth loading indicators and auto-reset on filter changes.
 
 ### Feature Specifications
 - **AI-Powered Profile Analysis**: 
@@ -57,7 +57,7 @@ PrepLounge is an AI-powered study abroad platform designed to assist students in
   - Full bilingual support with complete language separation
 - **University Browsing & Detail**: 
   - Displays 1,234 curated U.S. universities (filtered from verified list with duplicates removed)
-  - 12 schools per page pagination for efficient browsing
+  - Infinite scroll loading 12 universities at a time for seamless browsing
   - Single dual-handle range sliders for tuition ($0-$70k) and SAT scores (800-1600) with automatic handle collision prevention
   - "Recommended" sort (default) prioritizes schools with official logos and verified data
   - Additional sorting: Alphabetical (A-Z, Z-A), SAT Range (ascending/descending)
