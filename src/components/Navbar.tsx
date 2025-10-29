@@ -1,21 +1,20 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, ChevronDown, Globe } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { useLanguage } from '../context/LanguageContext';
 import './Navbar.css';
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUniversitiesMenuOpen, setIsUniversitiesMenuOpen] = useState(false);
   const [isMobileUniversitiesMenuOpen, setIsMobileUniversitiesMenuOpen] = useState(false);
-  const { isAuthenticated } = useAuth();
-  const { language, setLanguage, t } = useLanguage();
-  
-  const toggleLanguage = () => {
-    setLanguage(language === 'ko' ? 'en' : 'ko');
-  };
+  const { isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
 
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   return (
     <nav className="navbar-container">
@@ -37,44 +36,44 @@ const Navbar: React.FC = () => {
               onMouseLeave={() => setIsUniversitiesMenuOpen(false)}
             >
               <button className="navbar-menu-button">
-                {t('nav.universities')}
+                학교 모아보기
                 <ChevronDown className="chevron-icon" />
               </button>
               {isUniversitiesMenuOpen && (
                 <div className="navbar-dropdown">
                   <Link to="/universities" className="navbar-dropdown-item">
-                    {t('nav.universities.all')}
+                    전체 학교 보기
                   </Link>
                   <Link to="/compare" className="navbar-dropdown-item">
-                    {t('nav.universities.compare')}
+                    학교 비교하기
                   </Link>
                 </div>
               )}
             </div>
-            <Link to="/profile-calculator" className="navbar-menu-link" data-testid="link-profile">
-              {t('nav.profile')}
+            <Link to="/student-profile" className="navbar-menu-link">
+              프로필 분석
             </Link>
             <Link to="/consulting" className="navbar-menu-link">
-              {t('nav.consulting')}
+              컨설팅 추천
             </Link>
             <Link to="/housing" className="navbar-menu-link">
-              {t('nav.housing')}
+              주거 지원
             </Link>
           </div>
 
           <div className="navbar-actions">
-            <button onClick={toggleLanguage} className="navbar-language" data-testid="button-language">
+            <div className="navbar-language">
               <Globe size={16} />
-              <span>{t('nav.language')}</span>
-            </button>
+              <span>English</span>
+            </div>
 
             {isAuthenticated ? (
               <Link to="/dashboard" className="navbar-auth-button">
-                <span className="navbar-auth-button-text">{t('nav.dashboard')}</span>
+                <span className="navbar-auth-button-text">대시보드</span>
               </Link>
             ) : (
               <Link to="/login" className="navbar-auth-button">
-                <span className="navbar-auth-button-text">{t('nav.login')}</span>
+                <span className="navbar-auth-button-text">로그인</span>
               </Link>
             )}
           </div>
@@ -95,7 +94,7 @@ const Navbar: React.FC = () => {
                   onClick={() => setIsMobileUniversitiesMenuOpen(!isMobileUniversitiesMenuOpen)}
                   className="navbar-mobile-menu-button"
                 >
-                  {t('nav.universities')}
+                  학교 모아보기
                   <ChevronDown className={`chevron-icon ${isMobileUniversitiesMenuOpen ? 'rotated' : ''}`} />
                 </button>
                 {isMobileUniversitiesMenuOpen && (
@@ -105,39 +104,38 @@ const Navbar: React.FC = () => {
                       className="navbar-mobile-submenu-link"
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      {t('nav.universities.all')}
+                      전체 학교 보기
                     </Link>
                     <Link
                       to="/compare"
                       className="navbar-mobile-submenu-link"
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      {t('nav.universities.compare')}
+                      학교 비교하기
                     </Link>
                   </div>
                 )}
               </div>
               <Link
-                to="/profile-calculator"
+                to="/student-profile"
                 className="navbar-mobile-link"
                 onClick={() => setIsMenuOpen(false)}
-                data-testid="link-profile-mobile"
               >
-                {t('nav.profile')}
+                프로필 분석
               </Link>
               <Link
                 to="/consulting"
                 className="navbar-mobile-link"
                 onClick={() => setIsMenuOpen(false)}
               >
-                {t('nav.consulting')}
+                컨설팅 추천
               </Link>
               <Link
                 to="/housing"
                 className="navbar-mobile-link"
                 onClick={() => setIsMenuOpen(false)}
               >
-                {t('nav.housing')}
+                주거 지원
               </Link>
               <div className="navbar-mobile-divider">
                 {isAuthenticated ? (
@@ -146,7 +144,7 @@ const Navbar: React.FC = () => {
                     className="navbar-mobile-auth-button"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    {t('nav.dashboard')}
+                    대시보드
                   </Link>
                 ) : (
                   <Link
@@ -154,7 +152,7 @@ const Navbar: React.FC = () => {
                     className="navbar-mobile-auth-button"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    {t('nav.login')}
+                    로그인
                   </Link>
                 )}
               </div>

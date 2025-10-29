@@ -1,132 +1,29 @@
-import { useState, useEffect } from 'react';
-import { Search, MapPin, Users, Loader2 } from 'lucide-react';
-import { useLanguage } from '../context/LanguageContext';
-import { searchListings, CozyingListing, parseLocation, geocodeLocation } from '../lib/cozyingApi';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Search, MapPin, Home, Building2, Users } from 'lucide-react';
 import '../hero-section-style.css';
 import './housing-page.css';
 
-const HousingPage = () => {
-  const { t } = useLanguage();
-  const [listings, setListings] = useState<CozyingListing[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [currentLocation, setCurrentLocation] = useState('Fresno, CA');
-  const [errorMessage, setErrorMessage] = useState('');
-
-  useEffect(() => {
-    // Start with Fresno, CA which has listings
-    loadListings('Fresno', 'CA');
-  }, []);
-
-  const loadListings = async (city: string, state: string) => {
-    setLoading(true);
-    setErrorMessage('');
-    try {
-      const results = await searchListings({
-        city,
-        state,
-        sorted: 'newest',
-        currentPage: 1,
-        homesPerGroup: 12,
-      });
-      
-      setListings(results);
-      setCurrentLocation(`${city}, ${state}`);
-    } catch (error) {
-      console.error('Failed to load listings:', error);
-      setListings([]);
-      setErrorMessage('Failed to load listings. Please try a different location.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const isValidState = (state: string): boolean => {
-    const normalizedState = state.toUpperCase();
-    return normalizedState === 'CA' || normalizedState === 'CALIFORNIA' || 
-           normalizedState === 'GA' || normalizedState === 'GEORGIA';
-  };
-
-  const handleSearch = async () => {
-    if (!searchQuery.trim()) return;
-
-    // First, try parsing structured formats like "Los Angeles, CA"
-    const parsed = parseLocation(searchQuery);
-    
-    if (parsed && parsed.city && parsed.state) {
-      // Check if state is CA or GA
-      if (!isValidState(parsed.state)) {
-        setLoading(false);
-        setErrorMessage(t('housing.search.error.invalid-state'));
-        return;
-      }
-      // Successfully parsed and valid state
-      loadListings(parsed.city, parsed.state);
-      setErrorMessage('');
-      return;
-    }
-    
-    // If parsing failed, try geocoding (converts "Los Angeles" → "Los Angeles, CA")
-    setLoading(true);
-    setErrorMessage('');
-    
-    try {
-      const geocoded = await geocodeLocation(searchQuery);
-      
-      if (geocoded && geocoded.city && geocoded.state) {
-        // Check if geocoded state is CA or GA
-        if (!isValidState(geocoded.state)) {
-          setLoading(false);
-          setErrorMessage(t('housing.search.error.invalid-state'));
-          return;
-        }
-        // Successfully geocoded and valid state
-        loadListings(geocoded.city, geocoded.state);
-      } else {
-        // Geocoding failed - show error
-        setLoading(false);
-        setErrorMessage(t('housing.search.error.invalid-state'));
-      }
-    } catch (error) {
-      console.error('Geocoding error:', error);
-      setLoading(false);
-      setErrorMessage(t('housing.search.error.invalid-state'));
-    }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
-  };
-
+const HousingPage: React.FC = () => {
   return (
     <div className="housing-page">
       <section className="hero-section">
         <div className="hero-content">
           <div className="hero-titles">
-            <p className="hero-subtitle" data-testid="text-hero-subtitle">
-              {t('housing.hero.subtitle')}
+            <p className="hero-subtitle">
+              Searching for your Dream Home
             </p>
-            <h1 className="hero-title" data-testid="text-hero-title">
-              {t('housing.hero.title')}
+            <h1 className="hero-title">
+              캠퍼스 근처, 완벽한 집을 찾아보세요.
             </h1>
           </div>
-          <p className="hero-description" data-testid="text-hero-description">
-            {t('housing.hero.description').split('\n').map((line, i) => (
-              <span key={i}>{line}{i === 0 && <br />}</span>
-            ))}
+          <p className="hero-description">
+            대학 주변의 모든 매물을 한눈에!<br></br>온라인으로 쉽고 간편하게 원하는 조건에 맞는 집을 구경하세요.
           </p>
         </div>
         <div className="hero-buttons">
-          <a 
-            href="https://cozying.ai/" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="btn-primary"
-            data-testid="button-find-properties"
-          >
-            {t('housing.hero.button')}
+          <a href="https://cozying.ai/" target="_blank" rel="noopener noreferrer" className="btn-primary">
+            지금 바로 매물 찾기
           </a>
         </div>
       </section>
@@ -140,181 +37,177 @@ const HousingPage = () => {
 
       <section className="housing-search-section">
         <div className="housing-search-container">
-          {/* Availability Notice Banner */}
-          <div className="housing-availability-notice" data-testid="text-availability-notice">
-            <MapPin className="h-5 w-5 text-blue-600" />
-            <span>{t('housing.availability.notice')}</span>
-          </div>
-
-          <h2 className="housing-search-title" data-testid="text-search-title">
-            {t('housing.search.title')}
+          <h2 className="housing-search-title">
+            원하는 조건으로 간편하게 검색
           </h2>
-          <p className="housing-search-description" data-testid="text-search-description">
-            {t('housing.search.description')}
+          <p className="housing-search-description">
+            필터 하나만 클릭하면 딱 맞는 집이 나타납니다
           </p>
           <div className="housing-search-input-wrapper">
             <Search className="housing-search-icon h-5 w-5" />
             <input
               type="text"
-              placeholder={t('housing.search.placeholder')}
+              placeholder="대학교 지역을 입력하세요."
               className="housing-search-input"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyPress={handleKeyPress}
-              data-testid="input-search-location"
             />
-            <button 
-              onClick={handleSearch}
-              className="housing-search-button"
-              data-testid="button-search"
-            >
-              Search
-            </button>
           </div>
-          {errorMessage && (
-            <div className="housing-error-message" data-testid="error-message">
-              <p className="text-red-600 mt-4 text-sm font-medium">{errorMessage}</p>
-              <p className="text-gray-600 mt-2 text-sm">
-                {t('housing.search.error.examples')}
-              </p>
-            </div>
-          )}
         </div>
       </section>
 
       <section className="housing-listings-section">
         <div className="housing-listings-container">
-          <h3 className="housing-section-title" data-testid="text-listings-title">
-            New Listings Near {currentLocation}
+          <h3 className="housing-section-title">
+            하버드 근처 새로 나온 집
           </h3>
 
-          {loading ? (
-            <div className="housing-loading" data-testid="loading-listings">
-              <Loader2 className="h-12 w-12 animate-spin text-blue-600" />
-              <p>Loading listings...</p>
-            </div>
-          ) : listings.length === 0 ? (
-            <div className="housing-empty" data-testid="empty-listings">
-              <p className="text-lg font-semibold mb-2">{t('housing.empty.title')} {currentLocation}</p>
-              <p className="text-gray-600 mb-4">{t('housing.empty.description')}</p>
-              <div className="text-sm text-gray-600 space-y-2">
-                <p className="font-medium">{t('housing.empty.examples')}</p>
-                <p className="font-medium">{t('housing.empty.examples.ga')}</p>
+          <div className="housing-grid">
+            <div className="housing-card">
+              <img
+                src="https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&w=600"
+                alt="Harvard Dormitory"
+                className="housing-card-image"
+              />
+              <div className="housing-card-content">
+                <div className="housing-card-header">
+                  <h4 className="housing-card-title">Harvard Yard Dormitory</h4>
+                  <span className="housing-badge available">
+                    입주가능
+                  </span>
+                </div>
+                <div className="housing-card-location">
+                  <MapPin className="h-4 w-4" />
+                  <span>Cambridge, MA</span>
+                  <span className="housing-card-location-separator">•</span>
+                  <span>On Campus</span>
+                </div>
+                <div className="housing-card-price-container">
+                  <span className="housing-card-price">$1,800</span>
+                  <span className="housing-card-price-period">/월</span>
+                </div>
+                <div className="housing-card-amenities">
+                  <span className="housing-amenity-tag">WiFi</span>
+                  <span className="housing-amenity-tag">식당</span>
+                  <span className="housing-amenity-tag">스터디룸</span>
+                </div>
+                <button className="housing-card-button">
+                  자세히 보기
+                </button>
               </div>
             </div>
-          ) : (
-            <div className="housing-grid">
-              {listings.slice(0, 6).map((listing) => (
-                <div key={listing.id} className="housing-card" data-testid={`card-listing-${listing.id}`}>
-                  <img
-                    src={listing.imageUrl}
-                    alt={listing.title}
-                    className="housing-card-image"
-                    data-testid={`img-listing-${listing.id}`}
-                    crossOrigin="anonymous"
-                    referrerPolicy="no-referrer"
-                    loading="lazy"
-                  />
-                  <div className="housing-card-content">
-                    <div className="housing-card-header">
-                      <h4 className="housing-card-title" data-testid={`text-title-${listing.id}`}>
-                        {listing.title}
-                      </h4>
-                      <span className="housing-badge available" data-testid={`badge-status-${listing.id}`}>
-                        {t('housing.badge.available')}
-                      </span>
-                    </div>
-                    <div className="housing-card-location" data-testid={`text-location-${listing.id}`}>
-                      <MapPin className="h-4 w-4" />
-                      <span>{listing.city}, {listing.state}</span>
-                      {listing.bedrooms && (
-                        <>
-                          <span className="housing-card-location-separator">•</span>
-                          <span>{listing.bedrooms} bed</span>
-                        </>
-                      )}
-                      {listing.bathrooms && (
-                        <>
-                          <span className="housing-card-location-separator">•</span>
-                          <span>{listing.bathrooms} bath</span>
-                        </>
-                      )}
-                    </div>
-                    <div className="housing-card-price-container">
-                      <span className="housing-card-price" data-testid={`text-price-${listing.id}`}>
-                        ${listing.price.toLocaleString()}
-                      </span>
-                    </div>
-                    {listing.amenities && listing.amenities.length > 0 && (
-                      <div className="housing-card-amenities">
-                        {listing.amenities.slice(0, 3).map((amenity, idx) => (
-                          <span key={idx} className="housing-amenity-tag" data-testid={`tag-amenity-${listing.id}-${idx}`}>
-                            {amenity}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                    <a 
-                      href={listing.url ? `https://cozying.ai/${listing.url}` : 'https://cozying.ai/'}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="housing-card-button"
-                      data-testid={`button-details-${listing.id}`}
-                    >
-                      {t('housing.button.details')}
-                    </a>
-                  </div>
+
+            <div className="housing-card">
+              <img
+                src="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=600"
+                alt="Modern Studio"
+                className="housing-card-image"
+              />
+              <div className="housing-card-content">
+                <div className="housing-card-header">
+                  <h4 className="housing-card-title">Modern Studio Near Harvard</h4>
+                  <span className="housing-badge available">
+                    입주가능
+                  </span>
                 </div>
-              ))}
+                <div className="housing-card-location">
+                  <MapPin className="h-4 w-4" />
+                  <span>Cambridge, MA</span>
+                  <span className="housing-card-location-separator">•</span>
+                  <span>0.3 miles</span>
+                </div>
+                <div className="housing-card-price-container">
+                  <span className="housing-card-price">$2,400</span>
+                  <span className="housing-card-price-period">/월</span>
+                </div>
+                <div className="housing-card-amenities">
+                  <span className="housing-amenity-tag">주방</span>
+                  <span className="housing-amenity-tag">헬스장</span>
+                  <span className="housing-amenity-tag">주차</span>
+                </div>
+                <button className="housing-card-button">
+                  자세히 보기
+                </button>
+              </div>
             </div>
-          )}
+
+            <div className="housing-card">
+              <img
+                src="https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg?auto=compress&cs=tinysrgb&w=600"
+                alt="Shared House"
+                className="housing-card-image"
+              />
+              <div className="housing-card-content">
+                <div className="housing-card-header">
+                  <h4 className="housing-card-title">Cozy Shared House</h4>
+                  <span className="housing-badge available">
+                    입주가능
+                  </span>
+                </div>
+                <div className="housing-card-location">
+                  <MapPin className="h-4 w-4" />
+                  <span>Cambridge, MA</span>
+                  <span className="housing-card-location-separator">•</span>
+                  <span>0.8 miles</span>
+                </div>
+                <div className="housing-card-price-container">
+                  <span className="housing-card-price">$1,500</span>
+                  <span className="housing-card-price-period">/월</span>
+                </div>
+                <div className="housing-card-amenities">
+                  <span className="housing-amenity-tag">정원</span>
+                  <span className="housing-amenity-tag">공용주방</span>
+                  <span className="housing-amenity-tag">세탁실</span>
+                </div>
+                <button className="housing-card-button">
+                  자세히 보기
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       <section className="housing-features-section">
         <div className="housing-features-container">
-          <h2 className="housing-features-title" data-testid="text-features-title">
-            {t('housing.features.title')}
+          <h2 className="housing-features-title">
+            더 쉽고 빠르게 집을 찾는 방법
           </h2>
 
           <div className="housing-features-grid">
-            <div className="housing-feature-item" data-testid="feature-location">
+            <div className="housing-feature-item">
               <div className="housing-feature-icon-wrapper location">
-                <MapPin className="h-10 w-10" style={{color: '#F59E0B'}} />
+                <MapPin className="h-10 w-10" style={{color: '#B45309'}} />
               </div>
               <h3 className="housing-feature-title">
-                {t('housing.features.location.title')}
+                대학교 주변 매물만 모아서
               </h3>
               <p className="housing-feature-description">
-                {t('housing.features.location.description').split('\n').map((line, i) => (
-                  <span key={i}>{line}{i === 0 && <br />}</span>
-                ))}
+                대학교 지역을 검색하면 캠퍼스 주변 매물만 자동으로 필터링됩니다.
+                수천 개의 불필요한 매물 대신 정말 필요한 집만 찾아보세요.
               </p>
             </div>
 
-            <div className="housing-feature-item" data-testid="feature-search">
+            <div className="housing-feature-item">
               <div className="housing-feature-icon-wrapper search">
-                <Search className="h-10 w-10" style={{color: '#10B981'}} />
+                <Search className="h-10 w-10" style={{color: '#0F766E'}} />
               </div>
               <h3 className="housing-feature-title">
-                {t('housing.features.search.title')}
+                원하는 조건으로 검색
               </h3>
               <p className="housing-feature-description">
-                {t('housing.features.search.description').split('\n').map((line, i) => (
-                  <span key={i}>{line}{i === 0 && <br />}</span>
-                ))}
+                예산, 방 개수, 거리, 집 타입 등 원하는 조건을 선택하면 딱 맞는 매물만 보여드립니다.
+                복잡한 검색 없이 클릭 몇 번으로 완벽한 집을 찾으세요.
               </p>
             </div>
 
-            <div className="housing-feature-item" data-testid="feature-expert">
+            <div className="housing-feature-item">
               <div className="housing-feature-icon-wrapper expert">
-                <Users className="h-10 w-10" style={{color: '#F59E0B'}} />
+                <Users className="h-10 w-10" style={{color: '#4F46E5'}} />
               </div>
               <h3 className="housing-feature-title">
-                {t('housing.features.expert.title')}
+                처음이라면 전문가와 상담
               </h3>
               <p className="housing-feature-description">
-                {t('housing.features.expert.description')}
+                미국 집 구하기가 처음이라 막막하신가요? 현지 부동산 전문가와 카카오톡으로 편하게 상담할 수 있습니다.
               </p>
             </div>
           </div>
@@ -324,16 +217,24 @@ const HousingPage = () => {
       <footer className="homepage-footer">
         <div className="footer-container">
           <div className="footer-content">
-            <div className="footer-links">
-              <a href="#" className="footer-link">Terms of Service</a>
-              <span className="footer-link-separator">•</span>
-              <a href="#" className="footer-link">Privacy Policy</a>
-              <span className="footer-link-separator">•</span>
-              <a href="#" className="footer-link">Contact</a>
+            <div className="footer-info">
+              <h3 className="footer-company-name">Habitfactory USA</h3>
+              <p className="footer-address">
+                Los Angeles : 3435 Wilshire Blvd Suite 1940, LA, CA 90010<br />
+                Irvine : 2 Park Plaza Suite 350, Irvine, CA 92614<br />
+                (213) 426-1118<br />
+                info@loaning.ai
+              </p>
             </div>
-            <p className="footer-copyright">
-              © 2025 PrepLounge. All rights reserved.
-            </p>
+          </div>
+
+          <div className="footer-bottom">
+            <div className="footer-links">
+              <a href="#" className="footer-link">NMLS #2357195</a>
+              <a href="#" className="footer-link">Legal disclaimer</a>
+              <a href="#" className="footer-link">Licenses</a>
+            </div>
+            <p className="footer-copyright">©Habitfactory USA, Inc.</p>
           </div>
         </div>
       </footer>
