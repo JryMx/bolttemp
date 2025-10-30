@@ -58,8 +58,9 @@ PrepLounge is an AI-powered study abroad platform designed to assist students in
 - **University Browsing & Detail**: 
   - Displays 1,234 curated U.S. universities (filtered from verified list with duplicates removed)
   - Infinite scroll loading 12 universities at a time for seamless browsing
+  - Official university seals: Top 100 universities display official institutional seals from Wikipedia and verified sources
   - Single dual-handle range sliders for tuition ($0-$70k) and SAT scores (800-1600) with automatic handle collision prevention
-  - "Recommended" sort (default) prioritizes schools with official logos and verified data
+  - "Recommended" sort (default) prioritizes schools with official seals and verified data
   - Additional sorting: Alphabetical (A-Z, Z-A), SAT Range (ascending/descending)
   - Full bilingual support with complete language separation
 - **Housing Support**: Provides real estate listings, currently restricted to California and Georgia, with clear messaging and validation for state-specific searches.
