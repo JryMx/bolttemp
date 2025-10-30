@@ -1,481 +1,423 @@
-/* Student Profile Page - Following Homepage Design System */
-
 .student-profile-page {
-  background: #FCF8F0;
   min-height: 100vh;
-  padding-bottom: 60px;
+  background: #f9fafb;
+  padding: 48px 24px;
 }
 
-/* Hero Section */
-.profile-hero-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 60px 24px;
-  gap: 24px;
-  background: #FCF8F0;
+.profile-container {
+  max-width: 700px;
+  margin: 0 auto;
 }
 
-.profile-hero-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  max-width: 800px;
+/* Header */
+.profile-header {
   text-align: center;
+  margin-bottom: 32px;
 }
 
-.profile-hero-title {
-  font-family: 'Wanted Sans Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-style: normal;
-  font-weight: 900;
-  font-size: 48px;
-  line-height: 57px;
-  letter-spacing: -0.02em;
-  color: #082F49;
+.profile-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 12px;
 }
 
-.profile-hero-description {
-  font-family: 'Wanted Sans Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-style: normal;
+.profile-description {
+  font-size: 15px;
+  color: #4a5568;
+  line-height: 1.6;
+}
+
+/* Profile Score Box */
+.profile-score-box {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
+  border-radius: 12px;
+  padding: 48px;
+  text-align: center;
+  margin-bottom: 32px;
+  box-shadow: 0 4px 12px rgba(30, 58, 95, 0.15);
+}
+
+.score-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.score-label {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.score-value {
+  color: #fbbf24;
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.score-max {
+  color: #fff;
+  font-size: 32px;
   font-weight: 400;
-  font-size: 18px;
-  line-height: 140%;
-  letter-spacing: -0.02em;
-  color: #082F49;
+}
+
+.score-continue {
+  color: #fff;
+  font-size: 13px;
   opacity: 0.8;
 }
 
-/* Container */
-.profile-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
-}
-
-/* Application Components Checker Section */
-.application-checker-section {
-  background: #FFFFFF;
-  border-radius: 16px;
+/* Checklist Section */
+.checklist-section {
+  background: #fff;
+  border-radius: 12px;
   padding: 32px;
-  margin-bottom: 24px;
-  box-shadow: 0px 2px 8px rgba(8, 47, 73, 0.08);
+  margin-bottom: 32px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.application-checker-header {
+.checklist-header {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
-.application-checker-title {
-  font-family: 'Wanted Sans Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 24px;
-  line-height: 28px;
-  letter-spacing: -0.02em;
-  color: #082F49;
+.checklist-icon {
+  width: 24px;
+  height: 24px;
+  color: #2563eb;
 }
 
-.application-checker-description {
-  font-family: 'Wanted Sans Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 140%;
-  letter-spacing: -0.01em;
-  color: #082F49;
-  opacity: 0.7;
+.checklist-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a202c;
+}
+
+.checklist-description {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.6;
   margin-bottom: 24px;
 }
 
-.application-components-grid {
+.checklist-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
 }
 
-.application-component-card {
-  border-radius: 12px;
+.checklist-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
   padding: 20px;
-  transition: all 0.2s ease;
-  cursor: pointer;
-  border: 2px solid #E5E7EB;
-  background: #FAFAFA;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  transition: all 0.2s;
 }
 
-.application-component-card.checked {
-  border-color: #FACC15;
-  background: #FFFBEB;
+.checklist-item:hover {
+  border-color: #d1d5db;
+  background: #f3f4f6;
 }
 
-.application-component-content {
-  display: flex;
-  align-items: start;
-  gap: 12px;
-}
-
-.application-component-checkbox {
-  flex-shrink: 0;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: 2px solid #E5E7EB;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  background: #FFFFFF;
-}
-
-.application-component-card.checked .application-component-checkbox {
-  border-color: #FACC15;
-  background: #FACC15;
-}
-
-.application-component-info {
-  flex: 1;
-}
-
-.application-component-label {
-  font-family: 'Wanted Sans Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 19px;
-  letter-spacing: -0.01em;
-  color: #082F49;
+.item-icon {
+  width: 20px;
+  height: 20px;
+  color: #6b7280;
   margin-bottom: 4px;
 }
 
-.application-component-card.checked .application-component-label {
-  color: #082F49;
-}
-
-.application-component-description {
-  font-family: 'Wanted Sans Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-style: normal;
-  font-weight: 400;
+.item-label {
   font-size: 14px;
-  line-height: 140%;
-  letter-spacing: -0.01em;
-  color: #082F49;
-  opacity: 0.6;
+  font-weight: 500;
+  color: #1a202c;
 }
 
-/* Tab Navigation */
-.profile-tabs-container {
-  background: #FFFFFF;
-  border-radius: 16px;
-  box-shadow: 0px 2px 8px rgba(8, 47, 73, 0.08);
-  overflow: hidden;
+.item-sublabel {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* Tabs */
+.profile-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 0;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 16px 24px;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font-size: 15px;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: -2px;
+}
+
+.tab-button:hover {
+  color: #1a202c;
+}
+
+.tab-button.active {
+  color: #1a202c;
+  border-bottom-color: #2563eb;
+}
+
+/* Form Section */
+.form-section {
+  background: #fff;
+  border-radius: 0 0 12px 12px;
+  padding: 32px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 32px;
+}
+
+.form-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a202c;
   margin-bottom: 24px;
 }
 
-.profile-tabs-nav {
-  display: flex;
-  border-bottom: 2px solid #F3F4F6;
+.form-group {
+  margin-bottom: 20px;
 }
 
-.profile-tab-button {
-  flex: 1;
+.form-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.required {
+  color: #ef4444;
+}
+
+.optional {
+  font-weight: 400;
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #1a202c;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.form-input:focus,
+.form-select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-input::placeholder {
+  color: #9ca3af;
+}
+
+.form-select {
+  cursor: pointer;
+}
+
+.calculate-button {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 20px;
-  font-family: 'Wanted Sans Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 19px;
-  letter-spacing: -0.01em;
-  color: #082F49;
-  opacity: 0.5;
-  border: none;
-  background: transparent;
-  border-bottom: 3px solid transparent;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.profile-tab-button:hover {
-  opacity: 0.8;
-  background: #FAFAFA;
-}
-
-.profile-tab-button.active {
-  opacity: 1;
-  border-bottom-color: #FACC15;
-  background: #FFFBEB;
-}
-
-/* Tab Content */
-.profile-tab-content {
-  padding: 32px;
-}
-
-.profile-section-title {
-  font-family: 'Wanted Sans Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 24px;
-  line-height: 28px;
-  letter-spacing: -0.02em;
-  color: #082F49;
-  margin-bottom: 24px;
-}
-
-/* Form Fields */
-.profile-form-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
-}
-
-.profile-form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.profile-form-group.full-width {
-  grid-column: 1 / -1;
-}
-
-.profile-form-label {
-  font-family: 'Wanted Sans Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-style: normal;
+  padding: 16px;
+  font-size: 15px;
   font-weight: 600;
-  font-size: 14px;
-  line-height: 140%;
-  letter-spacing: -0.01em;
-  color: #082F49;
-}
-
-.profile-form-input,
-.profile-form-select,
-.profile-form-textarea {
-  box-sizing: border-box;
-  padding: 14px 16px;
-  background: #FFFFFF;
-  border: 2px solid #E5E7EB;
+  color: #fff;
+  background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
+  border: none;
   border-radius: 8px;
-  font-family: 'Wanted Sans Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 100%;
-  letter-spacing: -0.005em;
-  color: #082F49;
-  transition: all 0.2s ease;
-}
-
-.profile-form-input::placeholder,
-.profile-form-select::placeholder,
-.profile-form-textarea::placeholder {
-  color: rgba(8, 47, 73, 0.4);
-}
-
-.profile-form-input:focus,
-.profile-form-select:focus,
-.profile-form-textarea:focus {
-  outline: none;
-  border-color: #FACC15;
-  background: #FFFFFF;
-}
-
-.profile-form-textarea {
-  resize: vertical;
-  min-height: 120px;
-}
-
-/* Extracurriculars Section */
-.extracurriculars-section {
+  cursor: pointer;
+  transition: all 0.2s;
   margin-top: 32px;
 }
 
-.extracurriculars-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
+.calculate-button:hover {
+  background: linear-gradient(135deg, #1a2f4d 0%, #234268 100%);
+  box-shadow: 0 4px 12px rgba(30, 58, 95, 0.25);
 }
 
-.extracurricular-card {
-  background: #FAFAFA;
-  border: 2px solid #E5E7EB;
+.calculate-button:active {
+  transform: translateY(1px);
+}
+
+.button-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.coming-soon {
+  text-align: center;
+  padding: 60px 20px;
+  color: #9ca3af;
+  font-size: 15px;
+}
+
+/* Comparison Section */
+.comparison-section {
+  background: #fff;
   border-radius: 12px;
-  padding: 24px;
-  margin-bottom: 16px;
+  padding: 32px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.comparison-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a202c;
+  margin-bottom: 20px;
+}
+
+.search-container {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.search-input-wrapper {
+  flex: 1;
   position: relative;
 }
 
-.extracurricular-remove-btn {
+.search-icon {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  background: transparent;
-  border: none;
-  color: #EF4444;
-  cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
-  transition: all 0.2s ease;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  color: #9ca3af;
+  pointer-events: none;
 }
 
-.extracurricular-remove-btn:hover {
-  background: #FEE2E2;
+.search-input {
+  width: 100%;
+  padding: 12px 16px 12px 48px;
+  font-size: 14px;
+  color: #1a202c;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  transition: all 0.2s;
+  font-family: inherit;
 }
 
-/* Buttons */
-.profile-btn-primary {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 16px 24px;
-  gap: 10px;
-  background: #082F49;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-family: 'Wanted Sans Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 100%;
-  letter-spacing: -0.01em;
-  color: #FFFFFF;
-  text-decoration: none;
+.search-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-.profile-btn-primary:hover {
-  background: #0a415f;
-  transform: translateY(-2px);
-  box-shadow: 0px 4px 12px rgba(8, 47, 73, 0.2);
+.search-input::placeholder {
+  color: #9ca3af;
 }
 
-.profile-btn-primary:disabled {
-  background: #E5E7EB;
-  color: rgba(8, 47, 73, 0.4);
-  cursor: not-allowed;
-  transform: none;
-}
-
-.profile-btn-secondary {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 16px 24px;
-  gap: 10px;
-  background: transparent;
-  border: 2px solid #082F49;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-family: 'Wanted Sans Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 100%;
-  letter-spacing: -0.01em;
-  color: #082F49;
-}
-
-.profile-btn-secondary:hover {
-  background: #082F49;
-  color: #FFFFFF;
-}
-
-.profile-btn-add {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
-  background: #FACC15;
+.search-button {
+  padding: 12px 32px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background: #1e3a5f;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: 'Wanted Sans Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 100%;
-  letter-spacing: -0.01em;
-  color: #082F49;
+  transition: all 0.2s;
+  white-space: nowrap;
 }
 
-.profile-btn-add:hover {
-  background: #F59E0B;
-  transform: translateY(-1px);
+.search-button:hover {
+  background: #1a2f4d;
 }
 
-/* Action Buttons Container */
-.profile-actions {
+.empty-search {
   display: flex;
-  gap: 12px;
-  margin-top: 32px;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 16px;
 }
 
-/* Responsive Design */
+.empty-icon {
+  width: 48px;
+  height: 48px;
+  color: #d1d5db;
+}
+
+.empty-text {
+  font-size: 14px;
+  color: #9ca3af;
+  text-align: center;
+  max-width: 400px;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-  .profile-hero-title {
-    font-size: 36px;
-    line-height: 43px;
+  .student-profile-page {
+    padding: 24px 16px;
   }
 
-  .profile-hero-description {
-    font-size: 16px;
+  .profile-title {
+    font-size: 24px;
   }
 
-  .profile-form-grid {
+  .profile-score-box {
+    padding: 32px 24px;
+  }
+
+  .score-value {
+    font-size: 48px;
+  }
+
+  .score-max {
+    font-size: 24px;
+  }
+
+  .checklist-grid {
     grid-template-columns: 1fr;
   }
 
-  .application-components-grid {
-    grid-template-columns: 1fr;
+  .form-section,
+  .checklist-section,
+  .comparison-section {
+    padding: 24px;
   }
 
-  .profile-tab-content {
-    padding: 20px;
-  }
-
-  .application-checker-section {
-    padding: 20px;
-  }
-
-  .profile-actions {
+  .search-container {
     flex-direction: column;
   }
 
-  .profile-btn-primary,
-  .profile-btn-secondary {
+  .search-button {
     width: 100%;
-  }
-}
-
-@media (max-width: 480px) {
-  .profile-hero-title {
-    font-size: 28px;
-    line-height: 33px;
-  }
-
-  .profile-tabs-nav {
-    flex-direction: column;
-  }
-
-  .profile-tab-button {
-    border-bottom: 2px solid #F3F4F6;
-    border-right: none;
-  }
-
-  .profile-tab-button.active {
-    border-bottom-color: #FACC15;
-    border-right: none;
   }
 }
