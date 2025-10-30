@@ -555,8 +555,8 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 8px;
-  gap: 10px;
+  padding: 0px;
+  gap: 0px;
   background: #082F49;
   border-radius: 6px;
   border: none;
