@@ -548,6 +548,13 @@ const UniversityProfilePage: React.FC = () => {
                     {language === 'ko' ? '비교 목록에 추가' : 'Add to Comparison List'}
                   </>
                 )}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Two Column Layout: Application Requirements & Academic Information */}
+        <div className="university-profile-two-column">
           {/* Left Column */}
           <div>
             {/* Application Requirements */}
