@@ -91,6 +91,29 @@ const ComparePage = () => {
     setSelectedUniversities(prev => prev.filter(uni => uni.id !== universityId));
   };
 
+  const translateType = (type: string): string => {
+    if (language === 'en') {
+      const typeMap: Record<string, string> = {
+        '공립': 'Public',
+        '사립': 'Private',
+      };
+      return typeMap[type] || type;
+    }
+    return type;
+  };
+
+  const translateSize = (size: string): string => {
+    if (language === 'en') {
+      const sizeMap: Record<string, string> = {
+        '작음 (<5,000)': 'Small (<5,000)',
+        '중간 (5,000-15,000)': 'Medium (5,000-15,000)',
+        '큼 (15,000+)': 'Large (15,000+)',
+      };
+      return sizeMap[size] || size;
+    }
+    return size;
+  };
+
   const formatDegreeTypes = (degreeTypes: { bachelors: boolean; masters: boolean; doctoral: boolean }) => {
     const types = [];
     if (degreeTypes.bachelors) types.push(language === 'ko' ? '학사' : 'Bachelor\'s');
@@ -111,12 +134,12 @@ const ComparePage = () => {
         { 
           key: 'type', 
           label: t('compare.field.type'), 
-          format: (val: string) => val 
+          format: (val: string) => translateType(val) 
         },
         { 
           key: 'size', 
           label: t('compare.field.size'), 
-          format: (val: string) => val 
+          format: (val: string) => translateSize(val) 
         },
         { 
           key: 'tuition', 
