@@ -1,7 +1,9 @@
+/* Student Profile Page - Matching Design */
+
 .student-profile-page {
   min-height: 100vh;
-  background: #f9fafb;
-  padding: 48px 24px;
+  background: #FCF8F0;
+  padding: 48px 24px 80px;
 }
 
 .profile-container {
@@ -18,24 +20,25 @@
 .profile-title {
   font-size: 32px;
   font-weight: 700;
-  color: #1a202c;
+  color: #082F49;
   margin-bottom: 12px;
 }
 
 .profile-description {
   font-size: 15px;
-  color: #4a5568;
+  color: #082F49;
+  opacity: 0.8;
   line-height: 1.6;
 }
 
 /* Profile Score Box */
 .profile-score-box {
-  background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
-  border-radius: 12px;
+  background: #1e3a5f;
+  border-radius: 0;
   padding: 48px;
   text-align: center;
-  margin-bottom: 32px;
-  box-shadow: 0 4px 12px rgba(30, 58, 95, 0.15);
+  margin-bottom: 24px;
+  width: 100%;
 }
 
 .score-display {
@@ -53,10 +56,14 @@
 }
 
 .score-value {
-  color: #fbbf24;
+  color: #FACC15;
   font-size: 64px;
   font-weight: 700;
   line-height: 1;
+  border: 3px solid #fff;
+  border-radius: 8px;
+  padding: 20px 40px;
+  display: inline-block;
 }
 
 .score-max {
@@ -69,15 +76,16 @@
   color: #fff;
   font-size: 13px;
   opacity: 0.8;
+  margin-top: 8px;
 }
 
 /* Checklist Section */
 .checklist-section {
   background: #fff;
-  border-radius: 12px;
+  border-radius: 0;
   padding: 32px;
-  margin-bottom: 32px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 0;
+  box-shadow: none;
 }
 
 .checklist-header {
@@ -90,25 +98,26 @@
 .checklist-icon {
   width: 24px;
   height: 24px;
-  color: #2563eb;
+  color: #082F49;
 }
 
 .checklist-title {
   font-size: 18px;
-  font-weight: 600;
-  color: #1a202c;
+  font-weight: 700;
+  color: #082F49;
 }
 
 .checklist-description {
   font-size: 13px;
-  color: #6b7280;
+  color: #082F49;
+  opacity: 0.7;
   line-height: 1.6;
   margin-bottom: 24px;
 }
 
 .checklist-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
 }
 
@@ -118,15 +127,15 @@
   align-items: flex-start;
   gap: 6px;
   padding: 20px;
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
+  background: #fff;
+  border: 1px solid #E5E7EB;
   border-radius: 8px;
   transition: all 0.2s;
 }
 
 .checklist-item:hover {
   border-color: #d1d5db;
-  background: #f3f4f6;
+  background: #fafafa;
 }
 
 .item-icon {
@@ -138,8 +147,8 @@
 
 .item-label {
   font-size: 14px;
-  font-weight: 500;
-  color: #1a202c;
+  font-weight: 600;
+  color: #082F49;
 }
 
 .item-sublabel {
@@ -152,7 +161,8 @@
   display: flex;
   gap: 0;
   margin-bottom: 0;
-  border-bottom: 2px solid #e5e7eb;
+  background: #fff;
+  border-bottom: 2px solid #E5E7EB;
 }
 
 .tab-button {
@@ -162,35 +172,35 @@
   border: none;
   border-bottom: 3px solid transparent;
   font-size: 15px;
-  font-weight: 500;
-  color: #6b7280;
+  font-weight: 600;
+  color: #9ca3af;
   cursor: pointer;
   transition: all 0.2s;
   margin-bottom: -2px;
 }
 
 .tab-button:hover {
-  color: #1a202c;
+  color: #082F49;
 }
 
 .tab-button.active {
-  color: #1a202c;
-  border-bottom-color: #2563eb;
+  color: #082F49;
+  border-bottom-color: #FACC15;
 }
 
 /* Form Section */
 .form-section {
   background: #fff;
-  border-radius: 0 0 12px 12px;
+  border-radius: 0;
   padding: 32px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  margin-bottom: 32px;
+  box-shadow: none;
+  margin-bottom: 24px;
 }
 
 .form-title {
   font-size: 16px;
-  font-weight: 600;
-  color: #1a202c;
+  font-weight: 700;
+  color: #082F49;
   margin-bottom: 24px;
 }
 
@@ -201,8 +211,8 @@
 .form-label {
   display: block;
   font-size: 14px;
-  font-weight: 500;
-  color: #374151;
+  font-weight: 600;
+  color: #082F49;
   margin-bottom: 8px;
 }
 
@@ -221,9 +231,9 @@
   width: 100%;
   padding: 12px 16px;
   font-size: 14px;
-  color: #1a202c;
+  color: #082F49;
   background: #fff;
-  border: 1px solid #d1d5db;
+  border: 1px solid #E5E7EB;
   border-radius: 8px;
   transition: all 0.2s;
   font-family: inherit;
@@ -232,8 +242,8 @@
 .form-input:focus,
 .form-select:focus {
   outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  border-color: #FACC15;
+  box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.1);
 }
 
 .form-input::placeholder {
@@ -252,9 +262,9 @@
   gap: 8px;
   padding: 16px;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   color: #fff;
-  background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
+  background: #1e3a5f;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -263,7 +273,7 @@
 }
 
 .calculate-button:hover {
-  background: linear-gradient(135deg, #1a2f4d 0%, #234268 100%);
+  background: #163048;
   box-shadow: 0 4px 12px rgba(30, 58, 95, 0.25);
 }
 
@@ -286,15 +296,15 @@
 /* Comparison Section */
 .comparison-section {
   background: #fff;
-  border-radius: 12px;
+  border-radius: 0;
   padding: 32px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: none;
 }
 
 .comparison-title {
   font-size: 18px;
-  font-weight: 600;
-  color: #1a202c;
+  font-weight: 700;
+  color: #082F49;
   margin-bottom: 20px;
 }
 
@@ -324,9 +334,9 @@
   width: 100%;
   padding: 12px 16px 12px 48px;
   font-size: 14px;
-  color: #1a202c;
+  color: #082F49;
   background: #fff;
-  border: 1px solid #d1d5db;
+  border: 1px solid #E5E7EB;
   border-radius: 8px;
   transition: all 0.2s;
   font-family: inherit;
@@ -334,8 +344,8 @@
 
 .search-input:focus {
   outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  border-color: #FACC15;
+  box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.1);
 }
 
 .search-input::placeholder {
@@ -345,7 +355,7 @@
 .search-button {
   padding: 12px 32px;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   color: #fff;
   background: #1e3a5f;
   border: none;
@@ -356,7 +366,7 @@
 }
 
 .search-button:hover {
-  background: #1a2f4d;
+  background: #163048;
 }
 
 .empty-search {
@@ -397,6 +407,7 @@
 
   .score-value {
     font-size: 48px;
+    padding: 15px 30px;
   }
 
   .score-max {
@@ -419,5 +430,11 @@
 
   .search-button {
     width: 100%;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 900px) {
+  .checklist-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
