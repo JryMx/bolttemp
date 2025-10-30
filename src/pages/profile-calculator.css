@@ -53,13 +53,12 @@
   padding: 0 24px;
 }
 
-/* Profile Calculator Section - Full Width */
-.profile-calculator-section-fullwidth {
+/* Profile Calculator Section */
+.profile-calculator-section {
   background: #082F49;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
 }
 
 .profile-calculator-result-no-border {

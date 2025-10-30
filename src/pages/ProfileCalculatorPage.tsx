@@ -78,25 +78,25 @@ const ProfileCalculatorPage = () => {
         </div>
       </div>
 
-      {/* Profile Score Display - FULL WIDTH */}
-      <div className="profile-calculator-section-fullwidth" style={{marginBottom: '24px', padding: '40px 32px'}}>
-        <div className="profile-calculator-result-no-border" style={{width: '100%', height: '100%', maxWidth: '600px', margin: '0 auto'}}>
-          <div className="profile-calculator-result-content">
-            <div className="profile-calculator-score-group">
-              <span className="profile-calculator-score-label">{language === 'ko' ? '프로필 점수' : 'Profile Score'}</span>
-              <div className="profile-calculator-score-display">
-                <span className="profile-calculator-score-value" data-testid="text-current-score">{currentScore === 0 ? '0' : currentScore}</span>
-                <span className="profile-calculator-score-total">/100</span>
+      <div className="profile-container">
+        {/* Profile Score Display */}
+        <div className="profile-calculator-section" style={{marginBottom: '24px', padding: '40px 32px', borderRadius: '16px'}}>
+          <div className="profile-calculator-result-no-border" style={{width: '100%', height: '100%', maxWidth: '600px', margin: '0 auto'}}>
+            <div className="profile-calculator-result-content">
+              <div className="profile-calculator-score-group">
+                <span className="profile-calculator-score-label">{language === 'ko' ? '프로필 점수' : 'Profile Score'}</span>
+                <div className="profile-calculator-score-display">
+                  <span className="profile-calculator-score-value" data-testid="text-current-score">{currentScore === 0 ? '0' : currentScore}</span>
+                  <span className="profile-calculator-score-total">/100</span>
+                </div>
               </div>
+              <p className="profile-calculator-description">
+                {language === 'ko' ? '계속 학습' : 'Continue Learning'}
+              </p>
             </div>
-            <p className="profile-calculator-description">
-              {language === 'ko' ? '계속 학습' : 'Continue Learning'}
-            </p>
           </div>
         </div>
-      </div>
 
-      <div className="profile-container">
         {/* Application Components Checklist */}
         <div className="application-checker-section">
           <div className="application-checker-header">
