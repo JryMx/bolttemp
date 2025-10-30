@@ -61,7 +61,7 @@
   },
   {
     "id": "2",
-    "name": "앨라배마 대학교 버밍햄",
+    "name": "앨라배마 대학교 버밍햄 ",
     "englishName": "University of Alabama at Birmingham",
     "location": "United States",
     "tuition": 8832,
@@ -121,7 +121,7 @@
   },
   {
     "id": "3",
-    "name": "앨라배마 대학교 헌츠빌",
+    "name": "앨라배마 대학교 헌츠빌 ",
     "englishName": "University of Alabama in Huntsville",
     "location": "United States",
     "tuition": 11770,
@@ -295,7 +295,7 @@
   },
   {
     "id": "7",
-    "name": "오번 대학교 몽고메리",
+    "name": "오번 대학교 몽고메리 ",
     "englishName": "Auburn University at Montgomery",
     "location": "United States",
     "tuition": 9436,
@@ -12412,7 +12412,7 @@
   },
   {
     "id": "335",
-    "name": "하와이 대학교 힐로",
+    "name": "하와이 대학교 힐로 ",
     "englishName": "University of Hawaii at Hilo",
     "location": "United States",
     "tuition": 7838,
@@ -12471,7 +12471,7 @@
   },
   {
     "id": "336",
-    "name": "하와이 대학교 마노아",
+    "name": "하와이 대학교 마노아 ",
     "englishName": "University of Hawaii at Manoa",
     "location": "United States",
     "tuition": 12186,
@@ -12592,7 +12592,7 @@
   },
   {
     "id": "339",
-    "name": "하와이 대학교 웨스트 오아후",
+    "name": "하와이 대학교 웨스트 오아후 ",
     "englishName": "University of Hawaii-West Oahu",
     "location": "United States",
     "tuition": 7584,
@@ -15253,7 +15253,7 @@
   },
   {
     "id": "392",
-    "name": "일리노이 대학교 스프링필드",
+    "name": "일리노이 대학교 스프링필드 ",
     "englishName": "University of Illinois Springfield",
     "location": "United States",
     "tuition": 12252,
@@ -15311,7 +15311,7 @@
   },
   {
     "id": "393",
-    "name": "서던 일리노이 대학교 카번데일",
+    "name": "서던 일리노이 대학교 카번데일 ",
     "englishName": "Southern Illinois University-Carbondale",
     "location": "United States",
     "tuition": 13244,
@@ -15379,7 +15379,7 @@
   },
   {
     "id": "394",
-    "name": "서던 일리노이 대학교 에드워즈빌",
+    "name": "서던 일리노이 대학교 에드워즈빌 ",
     "englishName": "Southern Illinois University-Edwardsville",
     "location": "United States",
     "tuition": 12922,
@@ -16160,7 +16160,7 @@
   },
   {
     "id": "409",
-    "name": "퍼듀 대학교 포트 웨인",
+    "name": "퍼듀 대학교 포트 웨인 ",
     "englishName": "Purdue University Fort Wayne",
     "location": "United States",
     "tuition": 9254,
@@ -16220,7 +16220,7 @@
   },
   {
     "id": "410",
-    "name": "인디애나 대학교 인디애나폴리스",
+    "name": "인디애나 대학교 인디애나폴리스 ",
     "englishName": "Indiana University-Indianapolis",
     "location": "United States",
     "tuition": 10449,
@@ -20862,7 +20862,7 @@
   },
   {
     "id": "502",
-    "name": "유니언 칼리지",
+    "name": "유니언 대학교",
     "englishName": "Union College",
     "location": "United States",
     "tuition": 30946,
@@ -21572,7 +21572,7 @@
   },
   {
     "id": "517",
-    "name": "루이지애나 대학교 먼로",
+    "name": "루이지애나 대학교 먼로 ",
     "englishName": "University of Louisiana at Monroe",
     "location": "United States",
     "tuition": 9190,
@@ -21851,7 +21851,7 @@
   },
   {
     "id": "522",
-    "name": "서던 대학교 뉴올리언스",
+    "name": "서던 대학교 뉴올리언스 ",
     "englishName": "Southern University at New Orleans",
     "location": "United States",
     "tuition": 7490,
@@ -21901,7 +21901,7 @@
   },
   {
     "id": "523",
-    "name": "루이지애나 대학교 라피엣",
+    "name": "루이지애나 대학교 라피엣 ",
     "englishName": "University of Louisiana at Lafayette",
     "location": "United States",
     "tuition": 10418,
@@ -22233,7 +22233,7 @@
   },
   {
     "id": "530",
-    "name": "메인 대학교 파밍턴",
+    "name": "메인 대학교 파밍턴 ",
     "englishName": "University of Maine at Farmington",
     "location": "United States",
     "tuition": 10989,
@@ -22286,7 +22286,7 @@
   },
   {
     "id": "531",
-    "name": "메인 대학교 포트켄트",
+    "name": "메인 대학교 포트켄트 ",
     "englishName": "University of Maine at Fort Kent",
     "location": "United States",
     "tuition": 9045,
@@ -22396,7 +22396,7 @@
   },
   {
     "id": "533",
-    "name": "메인 대학교 프레스케아일",
+    "name": "메인 대학교 프레스케아일 ",
     "englishName": "University of Maine at Presque Isle",
     "location": "United States",
     "tuition": 8990,
@@ -25420,7 +25420,7 @@
   },
   {
     "id": "592",
-    "name": "매사추세츠 주립대학교 로웰",
+    "name": "매사추세츠 주립대학교 로웰 ",
     "englishName": "University of Massachusetts-Lowell",
     "location": "United States",
     "tuition": 16570,
@@ -25480,7 +25480,7 @@
   },
   {
     "id": "593",
-    "name": "매사추세츠 주립대학교 애머스트",
+    "name": "매사추세츠 주립대학교 애머스트 ",
     "englishName": "University of Massachusetts-Amherst",
     "location": "United States",
     "tuition": 17357,
@@ -25546,7 +25546,7 @@
   },
   {
     "id": "594",
-    "name": "매사추세츠 주립대학교 보스턴",
+    "name": "매사추세츠 주립대학교 보스턴 ",
     "englishName": "University of Massachusetts-Boston",
     "location": "United States",
     "tuition": 15496,
@@ -26351,7 +26351,7 @@
   },
   {
     "id": "613",
-    "name": "매사추세츠 주립대학교 다트머스",
+    "name": "매사추세츠 주립대학교 다트머스 ",
     "englishName": "University of Massachusetts-Dartmouth",
     "location": "United States",
     "tuition": 15208,
@@ -26809,7 +26809,7 @@
   },
   {
     "id": "621",
-    "name": "Wheaton College (Massachusetts)",
+    "name": "위튼 칼리지 (매사추세츠)",
     "englishName": "Wheaton College (Massachusetts)",
     "location": "United States",
     "tuition": 62080,
@@ -32440,7 +32440,7 @@
   },
   {
     "id": "735",
-    "name": "미주리 대학교 컬럼비아",
+    "name": "미주리 대학교 컬럼비아 ",
     "englishName": "University of Missouri-Columbia",
     "location": "United States",
     "tuition": 14130,
@@ -32504,7 +32504,7 @@
   },
   {
     "id": "736",
-    "name": "미주리 대학교 캔자스시티",
+    "name": "미주리 대학교 캔자스시티 ",
     "englishName": "University of Missouri-Kansas City",
     "location": "United States",
     "tuition": 11988,
@@ -32619,7 +32619,7 @@
   },
   {
     "id": "738",
-    "name": "미주리 대학교 세인트루이스",
+    "name": "미주리 대학교 세인트루이스 ",
     "englishName": "University of Missouri-St Louis",
     "location": "United States",
     "tuition": 13440,
@@ -33102,7 +33102,7 @@
   },
   {
     "id": "749",
-    "name": "미주리 주립대학교 스프링필드",
+    "name": "미주리 주립대학교 스프링필드 ",
     "englishName": "Missouri State University-Springfield",
     "location": "United States",
     "tuition": 9024,
@@ -33918,7 +33918,7 @@
   },
   {
     "id": "767",
-    "name": "네브래스카 대학교 카니",
+    "name": "네브래스카 대학교 카니 ",
     "englishName": "University of Nebraska at Kearney",
     "location": "United States",
     "tuition": 8302,
@@ -34072,7 +34072,7 @@
   },
   {
     "id": "770",
-    "name": "네브래스카 대학교 오마하",
+    "name": "네브래스카 대학교 오마하 ",
     "englishName": "University of Nebraska at Omaha",
     "location": "United States",
     "tuition": 8370,
@@ -34191,7 +34191,7 @@
   },
   {
     "id": "773",
-    "name": "네브래스카 대학교 링컨",
+    "name": "네브래스카 대학교 링컨 ",
     "englishName": "University of Nebraska-Lincoln",
     "location": "United States",
     "tuition": 10108,
@@ -34255,7 +34255,7 @@
   },
   {
     "id": "777",
-    "name": "네바다 대학교 라스베이거스",
+    "name": "네바다 대학교 라스베이거스 ",
     "englishName": "University of Nevada-Las Vegas",
     "location": "United States",
     "tuition": 9142,
@@ -34319,7 +34319,7 @@
   },
   {
     "id": "778",
-    "name": "네바다 대학교 리노",
+    "name": "네바다 대학교 리노 ",
     "englishName": "University of Nevada-Reno",
     "location": "United States",
     "tuition": 8994,
@@ -35184,7 +35184,7 @@
   },
   {
     "id": "800",
-    "name": "페어리 디킨슨 대학교 플로럼",
+    "name": "페어리 디킨슨 대학교 플로럼 ",
     "englishName": "Fairleigh Dickinson University-Florham Campus",
     "location": "United States",
     "tuition": 35822,
@@ -41354,7 +41354,7 @@
   },
   {
     "id": "927",
-    "name": "뉴욕 주립대학교 코틀랜드",
+    "name": "뉴욕 주립대학교 코틀랜드 ",
     "englishName": "State University of New York at Cortland",
     "location": "United States",
     "tuition": 8815,
@@ -41410,7 +41410,7 @@
   },
   {
     "id": "928",
-    "name": "뉴욕 주립대학교 프레도니아",
+    "name": "뉴욕 주립대학교 프레도니아 ",
     "englishName": "SUNY at Fredonia",
     "location": "United States",
     "tuition": 8771,
@@ -41468,7 +41468,7 @@
   },
   {
     "id": "929",
-    "name": "뉴욕 주립대학교 제네시오",
+    "name": "뉴욕 주립대학교 제네시오 ",
     "englishName": "SUNY College at Geneseo",
     "location": "United States",
     "tuition": 8966,
@@ -41520,7 +41520,7 @@
   },
   {
     "id": "930",
-    "name": "뉴욕 주립대학교 뉴 팔츠",
+    "name": "뉴욕 주립대학교 뉴 팔츠 ",
     "englishName": "State University of New York at New Paltz",
     "location": "United States",
     "tuition": 8524,
@@ -41578,7 +41578,7 @@
   },
   {
     "id": "931",
-    "name": "뉴욕 주립대학교 오네온타",
+    "name": "뉴욕 주립대학교 오네온타 ",
     "englishName": "SUNY Oneonta",
     "location": "United States",
     "tuition": 8812,
@@ -41636,7 +41636,7 @@
   },
   {
     "id": "932",
-    "name": "뉴욕 주립대학교 오스위고",
+    "name": "뉴욕 주립대학교 오스위고 ",
     "englishName": "State University of New York at Oswego",
     "location": "United States",
     "tuition": 8769,
@@ -41696,7 +41696,7 @@
   },
   {
     "id": "933",
-    "name": "뉴욕 주립대학교 포츠담",
+    "name": "뉴욕 주립대학교 포츠담 ",
     "englishName": "SUNY College at Potsdam",
     "location": "United States",
     "tuition": 8712,
@@ -41753,7 +41753,7 @@
   },
   {
     "id": "934",
-    "name": "뉴욕 주립대학교 퍼체이스",
+    "name": "뉴욕 주립대학교 퍼체이스 ",
     "englishName": "SUNY at Purchase College",
     "location": "United States",
     "tuition": 8953,
@@ -41808,7 +41808,7 @@
   },
   {
     "id": "935",
-    "name": "뉴욕 주립대학교 올드 웨스트버리",
+    "name": "뉴욕 주립대학교 올드 웨스트버리 ",
     "englishName": "SUNY Old Westbury",
     "location": "United States",
     "tuition": 8379,
@@ -41864,7 +41864,7 @@
   },
   {
     "id": "936",
-    "name": "뉴욕 주립대학교 플래츠버그",
+    "name": "뉴욕 주립대학교 플래츠버그 ",
     "englishName": "State University of New York at Plattsburgh",
     "location": "United States",
     "tuition": 8881,
@@ -43709,7 +43709,7 @@
   },
   {
     "id": "977",
-    "name": "노스캐롤라이나 대학교 애슈빌",
+    "name": "노스캐롤라이나 대학교 애슈빌 ",
     "englishName": "University of North Carolina Asheville",
     "location": "United States",
     "tuition": 7461,
@@ -43764,7 +43764,7 @@
   },
   {
     "id": "978",
-    "name": "노스캐롤라이나 대학교 채플힐",
+    "name": "노스캐롤라이나 대학교 채플힐 ",
     "englishName": "University of North Carolina at Chapel Hill",
     "location": "United States",
     "tuition": 8989,
@@ -43827,7 +43827,7 @@
   },
   {
     "id": "979",
-    "name": "노스캐롤라이나 대학교 샬럿",
+    "name": "노스캐롤라이나 대학교 샬럿 ",
     "englishName": "University of North Carolina at Charlotte",
     "location": "United States",
     "tuition": 7214,
@@ -43888,7 +43888,7 @@
   },
   {
     "id": "980",
-    "name": "노스캐롤라이나 대학교 그린즈버러",
+    "name": "노스캐롤라이나 대학교 그린즈버러 ",
     "englishName": "University of North Carolina at Greensboro",
     "location": "United States",
     "tuition": 7593,
@@ -44046,7 +44046,7 @@
   },
   {
     "id": "983",
-    "name": "노스캐롤라이나 주립대학교 롤리",
+    "name": "노스캐롤라이나 주립대학교 롤리 ",
     "englishName": "North Carolina State University at Raleigh",
     "location": "United States",
     "tuition": 8895,
@@ -44167,7 +44167,7 @@
   },
   {
     "id": "985",
-    "name": "노스캐롤라이나 대학교 윌밍턴",
+    "name": "노스캐롤라이나 대학교 윌밍턴 ",
     "englishName": "University of North Carolina Wilmington",
     "location": "United States",
     "tuition": 7317,
@@ -44227,7 +44227,7 @@
   },
   {
     "id": "986",
-    "name": "노스캐롤라이나 대학교 펨브로크",
+    "name": "노스캐롤라이나 대학교 펨브로크 ",
     "englishName": "University of North Carolina at Pembroke",
     "location": "United States",
     "tuition": 3571,
@@ -46101,7 +46101,7 @@
   },
   {
     "id": "1036",
-    "name": "켄트 주립대학교 켄트",
+    "name": "켄트 주립대학교 켄트 ",
     "englishName": "Kent State University at Kent",
     "location": "United States",
     "tuition": 12846,
@@ -48217,7 +48217,7 @@
   },
   {
     "id": "1101",
-    "name": "오클라호마 대학교 노먼",
+    "name": "오클라호마 대학교 노먼 ",
     "englishName": "University of Oklahoma-Norman Campus",
     "location": "United States",
     "tuition": 9595,
@@ -51154,7 +51154,7 @@
   },
   {
     "id": "1161",
-    "name": "펜실베이니아 주립대학교 쿠츠타운",
+    "name": "펜실베이니아 주립대학교 쿠츠타운 ",
     "englishName": "Kutztown University of Pennsylvania",
     "location": "United States",
     "tuition": 11230,
@@ -51779,7 +51779,7 @@
   },
   {
     "id": "1174",
-    "name": "펜실베이니아 주립대학교 밀러스빌",
+    "name": "펜실베이니아 주립대학교 밀러스빌 ",
     "englishName": "Millersville University of Pennsylvania",
     "location": "United States",
     "tuition": 12262,
@@ -52741,7 +52741,7 @@
   },
   {
     "id": "1193",
-    "name": "피츠버그 대학교 존스타운",
+    "name": "피츠버그 대학교 존스타운 ",
     "englishName": "University of Pittsburgh-Johnstown",
     "location": "United States",
     "tuition": 14646,
@@ -52797,7 +52797,7 @@
   },
   {
     "id": "1194",
-    "name": "피츠버그 대학교 피츠버그",
+    "name": "피츠버그 대학교 피츠버그 ",
     "englishName": "University of Pittsburgh-Pittsburgh Campus",
     "location": "United States",
     "tuition": 21524,
@@ -53270,7 +53270,7 @@
   },
   {
     "id": "1202",
-    "name": "펜실베이니아 주립대학교 시펜스버그",
+    "name": "펜실베이니아 주립대학교 시펜스버그 ",
     "englishName": "Shippensburg University of Pennsylvania",
     "location": "United States",
     "tuition": 13544,
@@ -53330,7 +53330,7 @@
   },
   {
     "id": "1203",
-    "name": "펜실베이니아 주립대학교 슬리퍼리 록",
+    "name": "펜실베이니아 주립대학교 슬리퍼리 록 ",
     "englishName": "Slippery Rock University of Pennsylvania",
     "location": "United States",
     "tuition": 10507,
@@ -53848,7 +53848,7 @@
   },
   {
     "id": "1212",
-    "name": "펜실베이니아 주립대학교 웨스트 체스터",
+    "name": "펜실베이니아 주립대학교 웨스트 체스터 ",
     "englishName": "West Chester University of Pennsylvania",
     "location": "United States",
     "tuition": 10687,
@@ -55677,7 +55677,7 @@
   },
   {
     "id": "1251",
-    "name": "사우스캐롤라이나 대학교 에이컨",
+    "name": "사우스캐롤라이나 대학교 에이컨 ",
     "englishName": "University of South Carolina Aiken",
     "location": "United States",
     "tuition": 10760,
@@ -55730,7 +55730,7 @@
   },
   {
     "id": "1252",
-    "name": "사우스캐롤라이나 대학교 보퍼트",
+    "name": "사우스캐롤라이나 대학교 보퍼트 ",
     "englishName": "University of South Carolina Beaufort",
     "location": "United States",
     "tuition": 10730,
@@ -55782,7 +55782,7 @@
   },
   {
     "id": "1253",
-    "name": "사우스캐롤라이나 대학교 컬럼비아",
+    "name": "사우스캐롤라이나 대학교 컬럼비아 ",
     "englishName": "University of South Carolina-Columbia",
     "location": "United States",
     "tuition": 12688,
@@ -55963,7 +55963,7 @@
   },
   {
     "id": "1256",
-    "name": "사우스캐롤라이나 대학교 업스테이트",
+    "name": "사우스캐롤라이나 대학교 업스테이트 ",
     "englishName": "University of South Carolina-Upstate",
     "location": "United States",
     "tuition": 11583,
@@ -57421,7 +57421,7 @@
   },
   {
     "id": "1288",
-    "name": "테네시 대학교 서던",
+    "name": "테네시 대학교 서던 ",
     "englishName": "The University of Tennessee Southern",
     "location": "United States",
     "tuition": 10506,
@@ -57891,7 +57891,7 @@
   },
   {
     "id": "1297",
-    "name": "테네시 대학교 채터누가",
+    "name": "테네시 대학교 채터누가 ",
     "englishName": "The University of Tennessee-Chattanooga",
     "location": "United States",
     "tuition": 10144,
@@ -57951,7 +57951,7 @@
   },
   {
     "id": "1298",
-    "name": "테네시 대학교 녹스빌",
+    "name": "테네시 대학교 녹스빌 ",
     "englishName": "The University of Tennessee-Knoxville",
     "location": "United States",
     "tuition": 13484,
@@ -58016,7 +58016,7 @@
   },
   {
     "id": "1299",
-    "name": "테네시 대학교 마틴",
+    "name": "테네시 대학교 마틴 ",
     "englishName": "The University of Tennessee-Martin",
     "location": "United States",
     "tuition": 10208,
@@ -60937,7 +60937,7 @@
   },
   {
     "id": "1377",
-    "name": "텍사스 대학교 알링턴",
+    "name": "텍사스 대학교 알링턴 ",
     "englishName": "The University of Texas at Arlington",
     "location": "United States",
     "tuition": 11728,
@@ -60998,7 +60998,7 @@
   },
   {
     "id": "1378",
-    "name": "텍사스 대학교 오스틴",
+    "name": "텍사스 대학교 오스틴 ",
     "englishName": "The University of Texas at Austin",
     "location": "United States",
     "tuition": 11678,
@@ -61062,7 +61062,7 @@
   },
   {
     "id": "1379",
-    "name": "텍사스 대학교 댈러스",
+    "name": "텍사스 대학교 댈러스 ",
     "englishName": "The University of Texas at Dallas",
     "location": "United States",
     "tuition": 14564,
@@ -61120,7 +61120,7 @@
   },
   {
     "id": "1380",
-    "name": "텍사스 대학교 엘파소",
+    "name": "텍사스 대학교 엘파소 ",
     "englishName": "The University of Texas at El Paso",
     "location": "United States",
     "tuition": 9744,
@@ -61179,7 +61179,7 @@
   },
   {
     "id": "1381",
-    "name": "텍사스 대학교 타일러",
+    "name": "텍사스 대학교 타일러 ",
     "englishName": "The University of Texas at Tyler",
     "location": "United States",
     "tuition": 9920,
@@ -61355,7 +61355,7 @@
   },
   {
     "id": "1385",
-    "name": "텍사스 대학교 페르미안 베이슨",
+    "name": "텍사스 대학교 페르미안 베이슨 ",
     "englishName": "The University of Texas Permian Basin",
     "location": "United States",
     "tuition": 10904,
@@ -61414,7 +61414,7 @@
   },
   {
     "id": "1386",
-    "name": "텍사스 대학교 샌안토니오",
+    "name": "텍사스 대학교 샌안토니오 ",
     "englishName": "The University of Texas at San Antonio",
     "location": "United States",
     "tuition": 8991,
@@ -63907,7 +63907,7 @@
   },
   {
     "id": "1441",
-    "name": "버지니아 대학교 와이즈",
+    "name": "버지니아 대학교 와이즈 ",
     "englishName": "University of Virginia's College at Wise",
     "location": "United States",
     "tuition": 11656,
@@ -65060,7 +65060,7 @@
   },
   {
     "id": "1492",
-    "name": "워싱턴 대학교 시애틀",
+    "name": "워싱턴 대학교 시애틀 ",
     "englishName": "University of Washington-Seattle Campus",
     "location": "United States",
     "tuition": 12643,
@@ -67827,7 +67827,7 @@
   },
   {
     "id": "1562",
-    "name": "워싱턴 대학교 보셀",
+    "name": "워싱턴 대학교 보셀 ",
     "englishName": "University of Washington-Bothell Campus",
     "location": "United States",
     "tuition": 12559,
@@ -67883,7 +67883,7 @@
   },
   {
     "id": "1563",
-    "name": "워싱턴 대학교 타코마",
+    "name": "워싱턴 대학교 타코마 ",
     "englishName": "University of Washington-Tacoma Campus",
     "location": "United States",
     "tuition": 12817,
@@ -68270,7 +68270,7 @@
   },
   {
     "id": "1590",
-    "name": "오리건 주립대학교 캐스케이드",
+    "name": "오리건 주립대학교 캐스케이드 ",
     "englishName": "Oregon State University-Cascades Campus",
     "location": "United States",
     "tuition": 12594,
@@ -69109,7 +69109,7 @@
   },
   {
     "id": "1645",
-    "name": "코네티컷 대학교 하트퍼드",
+    "name": "코네티컷 대학교 하트퍼드 ",
     "englishName": "University of Connecticut-Hartford Campus",
     "location": "United States",
     "tuition": 17452,
