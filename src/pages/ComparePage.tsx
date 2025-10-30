@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { X, Plus, BookOpen, Search } from 'lucide-react';
-import { useLanguage } from '@/context/LanguageContext';
-import universitiesData from '@/data/universities.json';
+import { useLanguage } from '../context/LanguageContext';
+import universitiesData from '../data/universities.json';
 import './compare-page.css';
 
 interface University {
