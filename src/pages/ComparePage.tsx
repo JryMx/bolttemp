@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { X, Plus, BookOpen, Search } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import universitiesData from '../data/universities.json';
@@ -250,7 +250,7 @@ const ComparePage = () => {
 
                 <tbody>
                   {comparisonCategories.map(category => (
-                    <React.Fragment key={category.title}>
+                    <Fragment key={category.title}>
                       <tr>
                         <td
                           colSpan={selectedUniversities.length + 1}
@@ -273,7 +273,7 @@ const ComparePage = () => {
                           ))}
                         </tr>
                       ))}
-                    </React.Fragment>
+                    </Fragment>
                   ))}
                 </tbody>
               </table>
