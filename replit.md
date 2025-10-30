@@ -51,9 +51,9 @@ PrepLounge is an AI-powered study abroad platform designed to assist students in
       - Programs organized by 26 major categories from IPEDS data
       - Full Korean translations for all program categories
     - Custom scrollbar styling for improved UX
-  - **Action Buttons**: Two interactive buttons for future functionality
+  - **Action Buttons**: Two interactive buttons
     - "Check Admission Probability" (primary button) - Links to Profile Calculator
-    - "Add to Comparison List" (secondary button) - For university comparison feature
+    - "Add to Comparison List" (secondary button) - Adds university to localStorage-persisted comparison list with visual feedback
   - Full bilingual support with complete language separation
 - **University Browsing & Detail**: 
   - Displays 1,234 curated U.S. universities (filtered from verified list with duplicates removed)
@@ -63,6 +63,19 @@ PrepLounge is an AI-powered study abroad platform designed to assist students in
   - "Recommended" sort (default) prioritizes schools with official seals and verified data
   - Additional sorting: Alphabetical (A-Z, Z-A), SAT Range (ascending/descending)
   - Full bilingual support with complete language separation
+- **Compare Schools Feature**: 
+  - Side-by-side comparison of up to 4 universities
+  - localStorage persistence - comparison list survives page refreshes
+  - Add universities from UniversityProfilePage or search within ComparePage
+  - Visual feedback: button changes to green "Added to Comparison" state after adding
+  - Confirmation dialog to navigate to compare page after adding
+  - Comprehensive comparison table with three categories:
+    - Basic Information: Location, Type, Size, Tuition
+    - Admission Statistics: Acceptance Rate, SAT Range, ACT Range, Average GPA
+    - Post-Graduation Outcomes: 4-Year Graduation Rate, Degree Types (Bachelor's/Master's/Doctoral)
+  - Empty state encourages adding universities
+  - Modal search interface with real-time filtering across 1,234 universities
+  - Full bilingual support (Korean/English) with complete language separation
 - **Housing Support**: Provides real estate listings, currently restricted to California and Georgia, with clear messaging and validation for state-specific searches.
 - **Core Pages**: Includes HomePage, UniversitiesPage, UniversityProfilePage, StudentProfilePage, ProfileCalculatorPage, DashboardPage, ConsultingPage, ComparePage, HousingPage, LoginPage, and SignupPage.
 
