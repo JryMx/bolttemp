@@ -1,9 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Search, MapPin, Users, DollarSign, BookOpen, Filter, Grid2x2 as Grid, List } from 'lucide-react';
-import { useLanguage } from '../context/LanguageContext';
-import { DualRangeSlider } from '../components/DualRangeSlider';
-import universitiesData from '../data/universities.json';
 import './universities-page.css';
 
 interface University {
@@ -103,17 +100,13 @@ const universities: University[] = [
 ];
 
 const UniversitiesPage: React.FC = () => {
-  const { t, language } = useLanguage();
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [visibleCount, setVisibleCount] = useState(12);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const sentinelRef = useRef<HTMLDivElement>(null);
-  const itemsPerBatch = 12;
   const [filters, setFilters] = useState({
     types: [] as string[],
     sortBy: '',
-    tuitionRange: [0, 70000] as [number, number],
+    tuitionRange: [0, 60000] as [number, number],
     satRange: [800, 1600] as [number, number],
   });
 
@@ -149,14 +142,6 @@ const UniversitiesPage: React.FC = () => {
         const bSatMax = parseInt(b.satRange.split('-')[1]);
         return bSatMax - aSatMax;
       default:
-        // Default/Recommended Sort: Prioritize universities with official logos
-        // These schools typically have verified data and complete profiles
-        // Schools with real logos from wikimedia or logos-world appear first
-        const aHasLogo = a.image.includes('upload.wikimedia.org') || a.image.includes('logos-world.net');
-        const bHasLogo = b.image.includes('upload.wikimedia.org') || b.image.includes('logos-world.net');
-        if (aHasLogo && !bHasLogo) return -1;
-        if (!aHasLogo && bHasLogo) return 1;
-        // If both have logos or both don't, maintain original order
         return 0;
     }
   });
@@ -168,73 +153,19 @@ const UniversitiesPage: React.FC = () => {
         ? prev.types.filter(t => t !== type)
         : [...prev.types, type]
     }));
-    setVisibleCount(12);
   };
 
   const handleSortChange = (sortBy: string) => {
     setFilters(prev => ({ ...prev, sortBy }));
-    setVisibleCount(12);
   };
 
   const handleTuitionRangeChange = (range: [number, number]) => {
-    // Ensure min doesn't exceed max and max doesn't go below min
-    const [min, max] = range;
-    const validRange: [number, number] = [
-      Math.min(min, max),
-      Math.max(min, max)
-    ];
-    setFilters(prev => ({ ...prev, tuitionRange: validRange }));
-    setVisibleCount(12);
-  };
-  
-  const handleSearchChange = (term: string) => {
-    setSearchTerm(term);
-    setVisibleCount(12);
+    setFilters(prev => ({ ...prev, tuitionRange: range }));
   };
 
   const handleSatRangeChange = (range: [number, number]) => {
-    // Ensure min doesn't exceed max and max doesn't go below min
-    const [min, max] = range;
-    const validRange: [number, number] = [
-      Math.min(min, max),
-      Math.max(min, max)
-    ];
-    setFilters(prev => ({ ...prev, satRange: validRange }));
-    setVisibleCount(12);
+    setFilters(prev => ({ ...prev, satRange: range }));
   };
-
-  // Infinite scroll: display only the visible items
-  const visibleUniversities = sortedUniversities.slice(0, visibleCount);
-  const hasMore = visibleCount < sortedUniversities.length;
-
-  // Infinite scroll observer
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const first = entries[0];
-        if (first.isIntersecting && hasMore && !isLoadingMore) {
-          setIsLoadingMore(true);
-          // Simulate loading delay for smooth UX
-          setTimeout(() => {
-            setVisibleCount(prev => prev + itemsPerBatch);
-            setIsLoadingMore(false);
-          }, 300);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    const currentSentinel = sentinelRef.current;
-    if (currentSentinel) {
-      observer.observe(currentSentinel);
-    }
-
-    return () => {
-      if (currentSentinel) {
-        observer.unobserve(currentSentinel);
-      }
-    };
-  }, [hasMore, isLoadingMore, itemsPerBatch]);
 
   return (
     <div className="universities-page">
@@ -321,53 +252,65 @@ const UniversitiesPage: React.FC = () => {
                 <label className="universities-filter-label">
                   학비: ${filters.tuitionRange[0].toLocaleString()} - ${filters.tuitionRange[1].toLocaleString()}
                 </label>
-                <div className="px-2">
-                  <DualRangeSlider
-                    min={0}
-                    max={70000}
-                    step={1000}
-                    value={filters.tuitionRange}
-                    onChange={handleTuitionRangeChange}
-                  />
+                  <div className="px-2">
+                    <input
+                      type="range"
+                      min="0"
+                      max="60000"
+                      step="1000"
+                      value={filters.tuitionRange[0]}
+                      onChange={(e) => handleTuitionRangeChange([parseInt(e.target.value), filters.tuitionRange[1]])}
+                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                    />
+                    <input
+                      type="range"
+                      min="0"
+                      max="60000"
+                      step="1000"
+                      value={filters.tuitionRange[1]}
+                      onChange={(e) => handleTuitionRangeChange([filters.tuitionRange[0], parseInt(e.target.value)])}
+                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider mt-2"
+                    />
+                  </div>
                 </div>
-              </div>
 
               <div className="universities-filter-group">
                 <label className="universities-filter-label">
                   SAT 범위: {filters.satRange[0]} - {filters.satRange[1]}
                 </label>
-                <div className="px-2">
-                  <DualRangeSlider
-                    min={800}
-                    max={1600}
-                    step={10}
-                    value={filters.satRange}
-                    onChange={handleSatRangeChange}
-                  />
+                  <div className="px-2">
+                    <input
+                      type="range"
+                      min="800"
+                      max="1600"
+                      step="10"
+                      value={filters.satRange[0]}
+                      onChange={(e) => handleSatRangeChange([parseInt(e.target.value), filters.satRange[1]])}
+                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                    />
+                    <input
+                      type="range"
+                      min="800"
+                      max="1600"
+                      step="10"
+                      value={filters.satRange[1]}
+                      onChange={(e) => handleSatRangeChange([filters.satRange[0], parseInt(e.target.value)])}
+                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider mt-2"
+                    />
+                  </div>
                 </div>
-              </div>
               </div>
             </div>
           </div>
 
-        {/* Results Counter */}
-        <div style={{
-          marginBottom: '24px',
-          padding: '12px 0',
-          fontFamily: 'Wanted Sans Variable, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif',
-          fontSize: '15px',
-          fontWeight: '600',
-          color: '#082F49',
-          letterSpacing: '-0.01em'
-        }} data-testid="text-results-count">
-          {language === 'ko' 
-            ? `전체 ${universities.length}개 중 ${sortedUniversities.length}개 학교`
-            : `Showing ${sortedUniversities.length} of ${universities.length} schools`
-          }
-        </div>
+          <div style={{marginBottom: '24px'}}>
+            <p className="universities-description">
+              전체 {universities.length}개 학교 중 {sortedUniversities.length}개 학교
+            </p>
+          </div>
 
         <div className={viewMode === 'grid' ? 'universities-grid' : 'universities-list'}>
-          {visibleUniversities.map(university => (
+          {sortedUniversities.map(university => (
             viewMode === 'grid' ? (
               <Link
                 key={university.id}
@@ -458,72 +401,16 @@ const UniversitiesPage: React.FC = () => {
             <h3 className="universities-empty-title">해당되는 학교가 없습니다</h3>
             <p className="universities-empty-text">필터를 해제하고 다시 시도해보세요.</p>
             <button
-              onClick={() => {
-                setFilters({
-                  types: [],
-                  sortBy: '',
-                  tuitionRange: [0, 70000],
-                  satRange: [800, 1600]
-                });
-                setVisibleCount(12);
-              }}
+              onClick={() => setFilters({
+                types: [],
+                sortBy: '',
+                tuitionRange: [0, 60000],
+                satRange: [800, 1600]
+              })}
               className="universities-filter-button active" style={{marginTop: '16px'}}
             >
               필터 해제
             </button>
-          </div>
-        )}
-
-        {/* Infinite Scroll Sentinel */}
-        {hasMore && (
-          <div 
-            ref={sentinelRef}
-            style={{
-              height: '20px',
-              margin: '40px 0'
-            }}
-          />
-        )}
-
-        {/* Loading Indicator */}
-        {isLoadingMore && (
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: '40px',
-            gap: '12px'
-          }}>
-            <div style={{
-              width: '20px',
-              height: '20px',
-              border: '3px solid #f3f4f6',
-              borderTop: '3px solid #FACC15',
-              borderRadius: '50%',
-              animation: 'spin 1s linear infinite'
-            }} />
-            <span style={{
-              fontFamily: 'Wanted Sans Variable, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif',
-              fontSize: '14px',
-              fontWeight: '600',
-              color: '#64748b'
-            }}>
-              {language === 'ko' ? '학교 불러오는 중...' : 'Loading more schools...'}
-            </span>
-          </div>
-        )}
-
-        {/* End of Results Message */}
-        {!hasMore && sortedUniversities.length > 0 && (
-          <div style={{
-            textAlign: 'center',
-            padding: '40px',
-            fontFamily: 'Wanted Sans Variable, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif',
-            fontSize: '14px',
-            fontWeight: '500',
-            color: '#9ca3af'
-          }}>
-            {language === 'ko' ? '모든 학교를 불러왔습니다' : 'All schools loaded'}
           </div>
         )}
       </div>
