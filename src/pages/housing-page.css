@@ -43,9 +43,11 @@
 .housing-search-input-wrapper {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   width: 100%;
-  padding: 18px 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 16px 20px;
   background: #FFFFFF;
   border: 2px solid #E5E7EB;
   border-radius: 12px;
@@ -82,6 +84,28 @@
   color: rgba(8, 47, 73, 0.4);
 }
 
+.housing-search-button {
+  padding: 10px 16px;
+  background: #082F49;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Wanted Sans Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: -0.01em;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.housing-search-button:hover {
+  background: #082F49;
+}
+
 /* Listings Section */
 .housing-listings-section {
   padding: 80px 32px;
@@ -104,10 +128,45 @@
   margin-bottom: 32px;
 }
 
+.university-carousel {
+  display: inline-block;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in forwards;
+}
+
+.fade-out {
+  animation: fadeOut 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
 .housing-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 24px;
+  transition: opacity 0.3s ease;
 }
 
 /* Housing Card */
@@ -304,16 +363,28 @@
   margin: 0 auto 24px;
 }
 
-.housing-feature-icon-wrapper.location {
-  background: #FEF3C7;
+.housing-feature-icon-wrapper.orange {
+  background: #FFEDD5;
 }
 
-.housing-feature-icon-wrapper.search {
-  background: rgba(204, 251, 241, 0.8);
+.housing-feature-icon-wrapper.orange svg {
+  color: #C2410C;
 }
 
-.housing-feature-icon-wrapper.expert {
-  background: #E0E7FF;
+.housing-feature-icon-wrapper.green {
+  background: #DCFCE7;
+}
+
+.housing-feature-icon-wrapper.green svg {
+  color: #16A34A;
+}
+
+.housing-feature-icon-wrapper.blue {
+  background: #E0F2FE;
+}
+
+.housing-feature-icon-wrapper.blue svg {
+  color: #0284C7;
 }
 
 .housing-feature-title {

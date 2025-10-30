@@ -1,10 +1,115 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, MapPin, Home, Building2, Users } from 'lucide-react';
 import '../hero-section-style.css';
 import './housing-page.css';
 
 const HousingPage: React.FC = () => {
+  const universitiesData = [
+    {
+      name: '하버드',
+      properties: [
+        {
+          image: 'https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&w=600',
+          title: 'Harvard Yard Dormitory',
+          location: 'Cambridge, MA',
+          distance: 'On Campus',
+          price: '$1,800',
+          amenities: ['WiFi', '식당', '스터디룸']
+        },
+        {
+          image: 'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=600',
+          title: 'Modern Studio Near Harvard',
+          location: 'Cambridge, MA',
+          distance: '0.3 miles',
+          price: '$2,400',
+          amenities: ['주방', '헬스장', '주차']
+        },
+        {
+          image: 'https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg?auto=compress&cs=tinysrgb&w=600',
+          title: 'Cozy Shared House',
+          location: 'Cambridge, MA',
+          distance: '0.8 miles',
+          price: '$1,500',
+          amenities: ['정원', '공용주방', '세탁실']
+        }
+      ]
+    },
+    {
+      name: '뉴욕대',
+      properties: [
+        {
+          image: 'https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg?auto=compress&cs=tinysrgb&w=600',
+          title: 'Greenwich Village Loft',
+          location: 'New York, NY',
+          distance: 'On Campus',
+          price: '$2,800',
+          amenities: ['WiFi', '루프탑', '세탁실']
+        },
+        {
+          image: 'https://images.pexels.com/photos/2635038/pexels-photo-2635038.jpeg?auto=compress&cs=tinysrgb&w=600',
+          title: 'Brooklyn Heights Studio',
+          location: 'Brooklyn, NY',
+          distance: '2.5 miles',
+          price: '$2,200',
+          amenities: ['주방', '발코니', '헬스장']
+        },
+        {
+          image: 'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=600',
+          title: 'Manhattan Shared Apartment',
+          location: 'New York, NY',
+          distance: '0.5 miles',
+          price: '$1,900',
+          amenities: ['도어맨', '공용라운지', '주차']
+        }
+      ]
+    },
+    {
+      name: 'UCLA',
+      properties: [
+        {
+          image: 'https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&w=600',
+          title: 'Westwood Village Apartment',
+          location: 'Los Angeles, CA',
+          distance: 'On Campus',
+          price: '$2,100',
+          amenities: ['수영장', 'WiFi', '주차']
+        },
+        {
+          image: 'https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb&w=600',
+          title: 'Modern Santa Monica Studio',
+          location: 'Santa Monica, CA',
+          distance: '5 miles',
+          price: '$2,600',
+          amenities: ['오션뷰', '헬스장', '루프탑']
+        },
+        {
+          image: 'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=600',
+          title: 'Beverly Hills Shared House',
+          location: 'Beverly Hills, CA',
+          distance: '3.2 miles',
+          price: '$1,850',
+          amenities: ['정원', '수영장', '주방']
+        }
+      ]
+    }
+  ];
+
+  const [currentUniversityIndex, setCurrentUniversityIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentUniversityIndex((prev) => (prev + 1) % universitiesData.length);
+        setIsTransitioning(false);
+      }, 300);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="housing-page">
       <section className="hero-section">
@@ -50,118 +155,55 @@ const HousingPage: React.FC = () => {
               placeholder="대학교 지역을 입력하세요."
               className="housing-search-input"
             />
+            <button className="housing-search-button">
+              검색
+            </button>
           </div>
         </div>
       </section>
 
       <section className="housing-listings-section">
         <div className="housing-listings-container">
-          <h3 className="housing-section-title">
-            하버드 근처 새로 나온 집
+          <h3 className={`housing-section-title ${isTransitioning ? 'fade-out' : 'fade-in'}`}>
+            <span className="university-carousel">{universitiesData[currentUniversityIndex].name}</span> 근처 새로 나온 집
           </h3>
 
-          <div className="housing-grid">
-            <div className="housing-card">
-              <img
-                src="https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&w=600"
-                alt="Harvard Dormitory"
-                className="housing-card-image"
-              />
-              <div className="housing-card-content">
-                <div className="housing-card-header">
-                  <h4 className="housing-card-title">Harvard Yard Dormitory</h4>
-                  <span className="housing-badge available">
-                    입주가능
-                  </span>
+          <div className={`housing-grid ${isTransitioning ? 'fade-out' : 'fade-in'}`}>
+            {universitiesData[currentUniversityIndex].properties.map((property, index) => (
+              <div key={index} className="housing-card">
+                <img
+                  src={property.image}
+                  alt={property.title}
+                  className="housing-card-image"
+                />
+                <div className="housing-card-content">
+                  <div className="housing-card-header">
+                    <h4 className="housing-card-title">{property.title}</h4>
+                    <span className="housing-badge available">
+                      입주가능
+                    </span>
+                  </div>
+                  <div className="housing-card-location">
+                    <MapPin className="h-4 w-4" />
+                    <span>{property.location}</span>
+                    <span className="housing-card-location-separator">•</span>
+                    <span>{property.distance}</span>
+                  </div>
+                  <div className="housing-card-price-container">
+                    <span className="housing-card-price">{property.price}</span>
+                    <span className="housing-card-price-period">/월</span>
+                  </div>
+                  <div className="housing-card-amenities">
+                    {property.amenities.map((amenity, i) => (
+                      <span key={i} className="housing-amenity-tag">{amenity}</span>
+                    ))}
+                  </div>
+                  <button className="housing-card-button">
+                    자세히 보기
+                  </button>
                 </div>
-                <div className="housing-card-location">
-                  <MapPin className="h-4 w-4" />
-                  <span>Cambridge, MA</span>
-                  <span className="housing-card-location-separator">•</span>
-                  <span>On Campus</span>
-                </div>
-                <div className="housing-card-price-container">
-                  <span className="housing-card-price">$1,800</span>
-                  <span className="housing-card-price-period">/월</span>
-                </div>
-                <div className="housing-card-amenities">
-                  <span className="housing-amenity-tag">WiFi</span>
-                  <span className="housing-amenity-tag">식당</span>
-                  <span className="housing-amenity-tag">스터디룸</span>
-                </div>
-                <button className="housing-card-button">
-                  자세히 보기
-                </button>
               </div>
-            </div>
-
-            <div className="housing-card">
-              <img
-                src="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=600"
-                alt="Modern Studio"
-                className="housing-card-image"
-              />
-              <div className="housing-card-content">
-                <div className="housing-card-header">
-                  <h4 className="housing-card-title">Modern Studio Near Harvard</h4>
-                  <span className="housing-badge available">
-                    입주가능
-                  </span>
-                </div>
-                <div className="housing-card-location">
-                  <MapPin className="h-4 w-4" />
-                  <span>Cambridge, MA</span>
-                  <span className="housing-card-location-separator">•</span>
-                  <span>0.3 miles</span>
-                </div>
-                <div className="housing-card-price-container">
-                  <span className="housing-card-price">$2,400</span>
-                  <span className="housing-card-price-period">/월</span>
-                </div>
-                <div className="housing-card-amenities">
-                  <span className="housing-amenity-tag">주방</span>
-                  <span className="housing-amenity-tag">헬스장</span>
-                  <span className="housing-amenity-tag">주차</span>
-                </div>
-                <button className="housing-card-button">
-                  자세히 보기
-                </button>
-              </div>
-            </div>
-
-            <div className="housing-card">
-              <img
-                src="https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg?auto=compress&cs=tinysrgb&w=600"
-                alt="Shared House"
-                className="housing-card-image"
-              />
-              <div className="housing-card-content">
-                <div className="housing-card-header">
-                  <h4 className="housing-card-title">Cozy Shared House</h4>
-                  <span className="housing-badge available">
-                    입주가능
-                  </span>
-                </div>
-                <div className="housing-card-location">
-                  <MapPin className="h-4 w-4" />
-                  <span>Cambridge, MA</span>
-                  <span className="housing-card-location-separator">•</span>
-                  <span>0.8 miles</span>
-                </div>
-                <div className="housing-card-price-container">
-                  <span className="housing-card-price">$1,500</span>
-                  <span className="housing-card-price-period">/월</span>
-                </div>
-                <div className="housing-card-amenities">
-                  <span className="housing-amenity-tag">정원</span>
-                  <span className="housing-amenity-tag">공용주방</span>
-                  <span className="housing-amenity-tag">세탁실</span>
-                </div>
-                <button className="housing-card-button">
-                  자세히 보기
-                </button>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -174,8 +216,8 @@ const HousingPage: React.FC = () => {
 
           <div className="housing-features-grid">
             <div className="housing-feature-item">
-              <div className="housing-feature-icon-wrapper location">
-                <MapPin className="h-10 w-10" style={{color: '#B45309'}} />
+              <div className="housing-feature-icon-wrapper blue">
+                <MapPin className="h-10 w-10" />
               </div>
               <h3 className="housing-feature-title">
                 대학교 주변 매물만 모아서
@@ -187,8 +229,8 @@ const HousingPage: React.FC = () => {
             </div>
 
             <div className="housing-feature-item">
-              <div className="housing-feature-icon-wrapper search">
-                <Search className="h-10 w-10" style={{color: '#0F766E'}} />
+              <div className="housing-feature-icon-wrapper green">
+                <Search className="h-10 w-10" />
               </div>
               <h3 className="housing-feature-title">
                 원하는 조건으로 검색
@@ -200,8 +242,8 @@ const HousingPage: React.FC = () => {
             </div>
 
             <div className="housing-feature-item">
-              <div className="housing-feature-icon-wrapper expert">
-                <Users className="h-10 w-10" style={{color: '#4F46E5'}} />
+              <div className="housing-feature-icon-wrapper orange">
+                <Users className="h-10 w-10" />
               </div>
               <h3 className="housing-feature-title">
                 처음이라면 전문가와 상담
