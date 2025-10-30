@@ -47,11 +47,8 @@
   width: 100%;
   max-width: 400px;
   height: 280px;
-  object-fit: contain;
-  object-position: center;
-  background: #FFFFFF;
+  object-fit: cover;
   border-radius: 16px;
-  padding: 30px;
 }
 
 .university-profile-hero-content {
@@ -789,10 +786,6 @@
   .university-profile-stats {
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   }
-
-  .university-profile-two-column {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (max-width: 768px) {
@@ -831,10 +824,6 @@
   }
 
   .university-profile-details-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .majors-list {
     grid-template-columns: 1fr;
   }
 }

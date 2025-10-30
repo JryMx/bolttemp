@@ -18,11 +18,89 @@ interface University {
   image: string;
   type: string;
   size: string;
-  estimatedGPA?: number | null;
 }
 
-// Load real university data from JSON file
-const universities: University[] = universitiesData as University[];
+// Mock university data
+const universities: University[] = [
+  {
+    id: '1',
+    name: '하버드 대학교',
+    englishName: 'Harvard University',
+    location: '메사추세츠 케임브리지',
+    tuition: 54269,
+    acceptanceRate: 5.4,
+    satRange: '1460-1570',
+    actRange: '33-35',
+    image: 'https://images.pexels.com/photos/207684/pexels-photo-207684.jpeg?auto=compress&cs=tinysrgb&w=400',
+    type: '사립',
+    size: '중간 (5,000-15,000)',
+  },
+  {
+    id: '2',
+    name: '스탠퍼드 대학교',
+    englishName: 'Stanford University',
+    location: '캘리포니아 스탠퍼드',
+    tuition: 56169,
+    acceptanceRate: 4.8,
+    satRange: '1440-1570',
+    actRange: '32-35',
+    image: 'https://images.pexels.com/photos/1454360/pexels-photo-1454360.jpeg?auto=compress&cs=tinysrgb&w=400',
+    type: '사립',
+    size: '중간 (5,000-15,000)',
+  },
+  {
+    id: '3',
+    name: '메사추세츠 공과대학교',
+    englishName: 'Massachusetts Institute of Technology (MIT)',
+    location: '메사추세츠 케임브리지',
+    tuition: 53790,
+    acceptanceRate: 7.3,
+    satRange: '1470-1570',
+    actRange: '33-35',
+    image: 'https://images.pexels.com/photos/1454360/pexels-photo-1454360.jpeg?auto=compress&cs=tinysrgb&w=400',
+    type: '사립',
+    size: '작음 (<5,000)',
+  },
+  {
+    id: '4',
+    name: '캘리포니아 대학교 버클리',
+    englishName: 'University of California, Berkeley',
+    location: '캘리포니아 버클리',
+    tuition: 44007,
+    acceptanceRate: 17.5,
+    satRange: '1330-1530',
+    actRange: '30-35',
+    image: 'https://images.pexels.com/photos/1454360/pexels-photo-1454360.jpeg?auto=compress&cs=tinysrgb&w=400',
+    type: '공립',
+    size: '큼 (15,000+)',
+  },
+  {
+    id: '5',
+    name: '뉴욕 대학교',
+    englishName: 'New York University (NYU)',
+    location: '뉴욕 뉴욕',
+    tuition: 53308,
+    acceptanceRate: 21.1,
+    satRange: '1350-1530',
+    actRange: '30-34',
+    image: 'https://images.pexels.com/photos/1454360/pexels-photo-1454360.jpeg?auto=compress&cs=tinysrgb&w=400',
+    type: '사립',
+    size: '큼 (15,000+)',
+  },
+  {
+    id: '6',
+    name: '펜실베이니아 주립대학교',
+    englishName: 'Pennsylvania State University',
+    location: '펜실베이니아 유니버시티 파크',
+    tuition: 35514,
+    acceptanceRate: 76.0,
+    satRange: '1160-1360',
+    actRange: '25-30',
+    image: 'https://images.pexels.com/photos/1454360/pexels-photo-1454360.jpeg?auto=compress&cs=tinysrgb&w=400',
+    type: '공립',
+    size: '큼 (15,000+)',
+  },
+];
 
 const UniversitiesPage: React.FC = () => {
   const { t, language } = useLanguage();
@@ -41,7 +119,6 @@ const UniversitiesPage: React.FC = () => {
 
   const filteredUniversities = universities.filter(uni => {
     const matchesSearch = uni.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         uni.englishName.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          uni.location.toLowerCase().includes(searchTerm.toLowerCase());
     
     const matchesType = filters.types.length === 0 || filters.types.includes(uni.type);
@@ -60,13 +137,9 @@ const UniversitiesPage: React.FC = () => {
   const sortedUniversities = [...filteredUniversities].sort((a, b) => {
     switch (filters.sortBy) {
       case 'name-asc':
-        const nameA = language === 'ko' ? a.name : a.englishName;
-        const nameB = language === 'ko' ? b.name : b.englishName;
-        return nameA.localeCompare(nameB);
+        return a.name.localeCompare(b.name);
       case 'name-desc':
-        const nameDescA = language === 'ko' ? a.name : a.englishName;
-        const nameDescB = language === 'ko' ? b.name : b.englishName;
-        return nameDescB.localeCompare(nameDescA);
+        return b.name.localeCompare(a.name);
       case 'sat-asc':
         const aSatMin = parseInt(a.satRange.split('-')[0]);
         const bSatMin = parseInt(b.satRange.split('-')[0]);
@@ -168,10 +241,10 @@ const UniversitiesPage: React.FC = () => {
       <div className="universities-container">
         <div className="universities-header">
           <h1 className="universities-title">
-            {t('universities.title')}
+            대학 찾기
           </h1>
           <p className="universities-description">
-            {t('universities.description')}
+            미국 대학을 둘러보고 나에게 맞는 학교를 찾아보세요.
           </p>
         </div>
 
@@ -181,10 +254,10 @@ const UniversitiesPage: React.FC = () => {
               <Search className="universities-search-icon h-5 w-5" />
               <input
                 type="text"
-                placeholder={t('universities.search.placeholder')}
+                placeholder="이름 또는 지역으로 검색"
                 className="universities-search-input"
                 value={searchTerm}
-                onChange={(e) => handleSearchChange(e.target.value)}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
 
@@ -207,48 +280,46 @@ const UniversitiesPage: React.FC = () => {
           <div className="universities-filters">
             <div className="universities-filters-header">
               <Filter className="h-5 w-5" style={{color: '#082F49'}} />
-              <span className="universities-filters-title">{t('universities.filter.title')}</span>
+              <span className="universities-filters-title">필터</span>
             </div>
 
             <div className="universities-filters-content">
               <div className="universities-filter-group">
-                <label className="universities-filter-label">{t('universities.filter.type')}</label>
+                <label className="universities-filter-label">소유 형태</label>
                 <div className="universities-filter-buttons">
                   <button
-                    onClick={() => handleTypeToggle('사립')}
-                    className={`universities-filter-button ${filters.types.includes('사립') ? 'active' : ''}`}
-                    data-testid="button-filter-private"
+                    onClick={() => handleTypeToggle('Private')}
+                    className={`universities-filter-button ${filters.types.includes('Private') ? 'active' : ''}`}
                   >
-                    {t('universities.filter.type.private')}
+                    사립
                   </button>
                   <button
-                    onClick={() => handleTypeToggle('공립')}
-                    className={`universities-filter-button ${filters.types.includes('공립') ? 'active' : ''}`}
-                    data-testid="button-filter-public"
+                    onClick={() => handleTypeToggle('Public')}
+                    className={`universities-filter-button ${filters.types.includes('Public') ? 'active' : ''}`}
                   >
-                    {t('universities.filter.type.public')}
+                    공립
                   </button>
                 </div>
               </div>
 
               <div className="universities-filter-group">
-                <label className="universities-filter-label">{t('universities.filter.sort')}</label>
+                <label className="universities-filter-label">정렬</label>
                 <select
                   value={filters.sortBy}
                   onChange={(e) => handleSortChange(e.target.value)}
                   className="universities-filter-select"
                 >
-                  <option value="">{t('universities.filter.sort.default')}</option>
-                  <option value="name-asc">{t('universities.filter.sort.name-asc')}</option>
-                  <option value="name-desc">{t('universities.filter.sort.name-desc')}</option>
-                  <option value="sat-asc">{t('universities.filter.sort.sat-asc')}</option>
-                  <option value="sat-desc">{t('universities.filter.sort.sat-desc')}</option>
+                  <option value="">기본</option>
+                  <option value="name-asc">알파벳순 (A–Z)</option>
+                  <option value="name-desc">알파벳순 (Z–A)</option>
+                  <option value="sat-asc">SAT 범위순 (오름차순)</option>
+                  <option value="sat-desc">SAT 범위순 (내림차순)</option>
                 </select>
               </div>
 
               <div className="universities-filter-group">
                 <label className="universities-filter-label">
-                  {t('universities.filter.tuition')}: ${filters.tuitionRange[0].toLocaleString()} - ${filters.tuitionRange[1].toLocaleString()}
+                  학비: ${filters.tuitionRange[0].toLocaleString()} - ${filters.tuitionRange[1].toLocaleString()}
                 </label>
                 <div className="px-2">
                   <DualRangeSlider
@@ -263,7 +334,7 @@ const UniversitiesPage: React.FC = () => {
 
               <div className="universities-filter-group">
                 <label className="universities-filter-label">
-                  {t('universities.filter.sat')}: {filters.satRange[0]} - {filters.satRange[1]}
+                  SAT 범위: {filters.satRange[0]} - {filters.satRange[1]}
                 </label>
                 <div className="px-2">
                   <DualRangeSlider
@@ -305,24 +376,22 @@ const UniversitiesPage: React.FC = () => {
               >
                 <img
                   src={university.image}
-                  alt={language === 'ko' ? university.name : university.englishName}
+                  alt={university.name}
                   className="university-card-image"
                 />
                 <div className="university-card-content">
-                  <h3 className="university-card-title">{language === 'ko' ? university.name : university.englishName}</h3>
-                  {language === 'ko' && university.name !== university.englishName && (
-                    <p className="university-card-subtitle">{university.englishName}</p>
-                  )}
+                  <h3 className="university-card-title">{university.name}</h3>
+                  <p className="university-card-subtitle">{university.englishName}</p>
 
                   <div className="university-card-location">
                     <MapPin className="h-4 w-4" />
-                    <span>{university.location} • {university.type === '공립' ? (language === 'ko' ? '공립' : 'Public') : (language === 'ko' ? '사립' : 'Private')}</span>
+                    <span>{university.location} • {university.type}</span>
                   </div>
 
                   <div className="university-card-stats">
                     <div className="university-card-stat">
                       <Users className="university-card-stat-icon h-4 w-4" />
-                      <span className="university-card-stat-text">{t('universities.acceptance')} {university.acceptanceRate}%</span>
+                      <span className="university-card-stat-text">합격률 {university.acceptanceRate}%</span>
                     </div>
                     <div className="university-card-stat">
                       <DollarSign className="university-card-stat-icon h-4 w-4" />
@@ -347,24 +416,22 @@ const UniversitiesPage: React.FC = () => {
               >
                 <img
                   src={university.image}
-                  alt={language === 'ko' ? university.name : university.englishName}
+                  alt={university.name}
                   className="university-list-image"
                 />
                 <div className="university-list-content">
                   <div className="university-list-header">
-                    <h3 className="university-list-title">{language === 'ko' ? university.name : university.englishName}</h3>
-                    {language === 'ko' && university.name !== university.englishName && (
-                      <p className="university-list-subtitle">{university.englishName}</p>
-                    )}
+                    <h3 className="university-list-title">{university.name}</h3>
+                    <p className="university-list-subtitle">{university.englishName}</p>
                     <div className="university-card-location" style={{marginTop: '8px'}}>
                       <MapPin className="h-4 w-4" />
-                      <span>{university.location} • {university.type === '공립' ? (language === 'ko' ? '공립' : 'Public') : (language === 'ko' ? '사립' : 'Private')}</span>
+                      <span>{university.location} • {university.type}</span>
                     </div>
                   </div>
                   <div className="university-list-stats">
                     <div className="university-card-stat">
                       <Users className="university-card-stat-icon h-4 w-4" />
-                      <span className="university-card-stat-text">{t('universities.acceptance')} {university.acceptanceRate}%</span>
+                      <span className="university-card-stat-text">합격률 {university.acceptanceRate}%</span>
                     </div>
                     <div className="university-card-stat">
                       <DollarSign className="university-card-stat-icon h-4 w-4" />
@@ -388,8 +455,8 @@ const UniversitiesPage: React.FC = () => {
         {sortedUniversities.length === 0 && (
           <div className="universities-empty">
             <BookOpen className="universities-empty-icon" />
-            <h3 className="universities-empty-title">{t('universities.empty.title')}</h3>
-            <p className="universities-empty-text">{t('universities.empty.description')}</p>
+            <h3 className="universities-empty-title">해당되는 학교가 없습니다</h3>
+            <p className="universities-empty-text">필터를 해제하고 다시 시도해보세요.</p>
             <button
               onClick={() => {
                 setFilters({
@@ -402,7 +469,7 @@ const UniversitiesPage: React.FC = () => {
               }}
               className="universities-filter-button active" style={{marginTop: '16px'}}
             >
-              {t('universities.empty.reset')}
+              필터 해제
             </button>
           </div>
         )}
