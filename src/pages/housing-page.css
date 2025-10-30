@@ -103,7 +103,9 @@
 }
 
 .housing-search-button:hover {
-  background: #082F49;
+  background: #0a415f;
+  transform: translateY(-1px);
+  box-shadow: 0px 4px 12px rgba(8, 47, 73, 0.2);
 }
 
 /* Listings Section */
@@ -315,7 +317,9 @@
 }
 
 .housing-card-button:hover {
-  background: #082F49;
+  background: #0a415f;
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 12px rgba(8, 47, 73, 0.2);
 }
 
 /* Features Section */
