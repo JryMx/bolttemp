@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { X, Plus, BookOpen, Search } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
-import { useToast } from '@/hooks/use-toast';
 import universitiesData from '@/data/universities.json';
 import './compare-page.css';
 
@@ -33,7 +32,6 @@ const STORAGE_KEY = 'compare-universities';
 
 const ComparePage = () => {
   const { t, language } = useLanguage();
-  const { toast } = useToast();
   const [selectedUniversities, setSelectedUniversities] = useState<University[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
@@ -75,41 +73,22 @@ const ComparePage = () => {
 
   const addUniversity = (university: University) => {
     if (selectedUniversities.length >= 4) {
-      toast({
-        title: t('compare.toast.limit'),
-        variant: "destructive",
-      });
+      alert(t('compare.toast.limit'));
       return;
     }
 
     if (selectedUniversities.find(u => u.id === university.id)) {
-      toast({
-        title: t('compare.toast.already-added'),
-        variant: "destructive",
-      });
+      alert(t('compare.toast.already-added'));
       return;
     }
 
     setSelectedUniversities(prev => [...prev, university]);
     setShowAddModal(false);
     setSearchTerm('');
-
-    const universityName = language === 'ko' ? university.name : university.englishName;
-    toast({
-      title: t('compare.toast.added').replace('{name}', universityName),
-    });
   };
 
   const removeUniversity = (universityId: string) => {
-    const university = selectedUniversities.find(u => u.id === universityId);
     setSelectedUniversities(prev => prev.filter(uni => uni.id !== universityId));
-
-    if (university) {
-      const universityName = language === 'ko' ? university.name : university.englishName;
-      toast({
-        title: t('compare.toast.removed').replace('{name}', universityName),
-      });
-    }
   };
 
   const formatDegreeTypes = (degreeTypes: { bachelors: boolean; masters: boolean; doctoral: boolean }) => {

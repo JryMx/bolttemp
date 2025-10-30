@@ -1,6 +1,6 @@
-import React from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { MapPin, Users, DollarSign, BookOpen, ArrowLeft, Plus } from 'lucide-react';
+import React, { useState } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { MapPin, Users, DollarSign, BookOpen, ArrowLeft, Plus, Check } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import universitiesData from '../data/universities.json';
 import './university-profile-page.css';
@@ -133,10 +133,26 @@ const translateProgramName = (program: string, language: 'ko' | 'en'): string =>
   return translations[program] || program;
 };
 
+const STORAGE_KEY = 'compare-universities';
+
 const UniversityProfilePage: React.FC = () => {
   const { id } = useParams();
   const { t, language } = useLanguage();
+  const navigate = useNavigate();
   const university = getUniversityData(id || '1');
+  const [isAdded, setIsAdded] = useState(false);
+
+  // Check if university is already in comparison list
+  React.useEffect(() => {
+    if (!university) return;
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      const currentIds: string[] = saved ? JSON.parse(saved) : [];
+      setIsAdded(currentIds.includes(university.id));
+    } catch (error) {
+      console.error('Failed to check comparison list:', error);
+    }
+  }, [university]);
 
   if (!university) {
     return (
@@ -441,12 +457,54 @@ const UniversityProfilePage: React.FC = () => {
                 className="action-button secondary"
                 data-testid="button-add-comparison"
                 onClick={() => {
-                  // TODO: Implement comparison list functionality
-                  console.log('Add to comparison:', university.name);
+                  try {
+                    const saved = localStorage.getItem(STORAGE_KEY);
+                    const currentIds: string[] = saved ? JSON.parse(saved) : [];
+
+                    if (currentIds.includes(university.id)) {
+                      alert(t('compare.toast.already-added'));
+                      return;
+                    }
+
+                    if (currentIds.length >= 4) {
+                      alert(t('compare.toast.limit'));
+                      return;
+                    }
+
+                    currentIds.push(university.id);
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(currentIds));
+                    setIsAdded(true);
+
+                    const universityName = language === 'ko' ? university.name : university.englishName;
+                    const message = t('compare.toast.added').replace('{name}', universityName);
+                    const viewCompare = language === 'ko' ? '\n\n비교하기 페이지에서 확인하시겠습니까?' : '\n\nView on the Compare page?';
+                    
+                    if (window.confirm(message + viewCompare)) {
+                      navigate('/compare');
+                    }
+                  } catch (error) {
+                    console.error('Failed to add to comparison:', error);
+                    alert(language === 'ko' ? '오류가 발생했습니다' : 'An error occurred');
+                  }
                 }}
+                style={isAdded ? { 
+                  background: '#10b981', 
+                  borderColor: '#10b981',
+                  cursor: 'default'
+                } : undefined}
+                disabled={isAdded}
               >
-                <Plus className="h-5 w-5" />
-                {language === 'ko' ? '비교 목록에 추가' : 'Add to Comparison List'}
+                {isAdded ? (
+                  <>
+                    <Check className="h-5 w-5" />
+                    {language === 'ko' ? '비교 목록에 추가됨' : 'Added to Comparison'}
+                  </>
+                ) : (
+                  <>
+                    <Plus className="h-5 w-5" />
+                    {language === 'ko' ? '비교 목록에 추가' : 'Add to Comparison List'}
+                  </>
+                )}
               </button>
             </div>
           </div>
