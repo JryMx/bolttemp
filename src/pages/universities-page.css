@@ -147,23 +147,8 @@
 
 .universities-filters-content {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 24px;
-  align-items: start;
-}
-
-@media (max-width: 1024px) {
-  .universities-filters-content {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
-  }
-}
-
-@media (max-width: 768px) {
-  .universities-filters-content {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
 }
 
 .universities-filter-group {
@@ -477,15 +462,5 @@
   .universities-view-toggle {
     width: 100%;
     justify-content: center;
-  }
-}
-
-/* Infinite Scroll Loading Animation */
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
   }
 }
